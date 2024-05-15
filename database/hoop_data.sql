@@ -1,7 +1,53 @@
-INSERT INTO subscription (subscription_type,subscription_rate, max_devices) VALUES 
-('basic', 100.00, 1),
-('standard', 200.00, 3),
-('premium', 300.00, 5);
+INSERT INTO subscription (subscription_type, subscription_rate, subscription_start) VALUES
+    -> ('basic', 250.00, '2023-01-01'),
+    -> ('standard', 350.00, '2023-02-01'),
+    -> ('premium', 450.00, '2023-03-01'),
+    -> ('basic', 250.00, '2023-04-01'),
+    -> ('standard', 350.00, '2023-05-01'),
+    -> ('premium', 450.00, '2023-06-01'),
+    -> ('basic', 250.00, '2023-07-01'),
+    -> ('standard', 350.00, '2023-08-01'),
+    -> ('premium', 450.00, '2023-09-01'),
+    -> ('basic', 250.00, '2023-10-01');
+
+INSERT INTO account (subscription_id, fname, sname, phone, email, password, notif_pref) VALUES
+    -> (1, 'John', 'Doe', '0823456789', 'john.doe@example.com', 'Password123!', TRUE),
+    -> (2, 'Jane', 'Smith', '0834567890', 'jane.smith@example.com', 'Password456!', FALSE),
+    -> (3, 'Alice', 'Johnson', '0845678901', 'alice.johnson@example.com', 'Password789!', TRUE),
+    -> (4, 'Robert', 'Brown', '0856789012', 'robert.brown@example.com', 'Password012!', FALSE),
+    -> (5, 'Emily', 'Davis', '0867890123', 'emily.davis@example.com', 'Password345!', TRUE),
+    -> (6, 'Michael', 'Wilson', '0878901234', 'michael.wilson@example.com', 'Password678!', FALSE),
+    -> (7, 'Emma', 'Moore', '0889012345', 'emma.moore@example.com', 'Password901!', TRUE),
+    -> (8, 'Daniel', 'Taylor', '0890123456', 'daniel.taylor@example.com', 'Password234!', FALSE),
+    -> (9, 'Sophia', 'Anderson', '0801234567', 'sophia.anderson@example.com', 'Password567!', TRUE),
+    -> (10, 'James', 'Thomas', '0812345678', 'james.thomas@example.com', 'Password890!', FALSE);
+
+INSERT INTO profile(account_id, profile_age, profile_icon) VALUES
+    -> (1, 18, NULL),
+    -> (2, 35, NULL),
+    -> (2, 34, NULL),
+    -> (2, 8, NULL),
+    -> (3, 45, NULL),
+    -> (3, 47, NULL),
+    -> (3, 12, NULL),
+    -> (3, 20, NULL),
+    -> (4, 21, NULL),
+    -> (5, 37, NULL),
+    -> (5, 37, NULL),
+    -> (5, 38, NULL),
+    -> (6, 71, NULL),
+    -> (6, 50, NULL),
+    -> (6, 45, NULL),
+    -> (6, 43, NULL),
+    -> (6, 31, NULL),
+    -> (7, 30, NULL),
+    -> (8, 21, NULL),
+    -> (8, 20, NULL),
+    -> (8, 16, NULL),
+    -> (9, 30, NULL),
+    -> (9, 32, NULL),
+    -> (9, 29, NULL),
+    -> (10, 40, NULL);
 
 INSERT INTO title (title_name, title_type, release_date, image, genre, description, studio, pg_rating, rating, language, fss_address) VALUES
 ('Five Came Back: The Reference Films', 'SHOW', '1945-01-01', NULL, 'documentation', 'This collection includes 12 World War II-era propaganda films — many of which are graphic and offensive — discussed in the docuseries "Five Came Back."', NULL, 'TV-MA', , NULL, 'https://www.fss_address.com'),
