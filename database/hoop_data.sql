@@ -180,7 +180,21 @@ INSERT INTO credits(fname, sname) VALUES
 ('Stan', 'Shaw'),
 ('Don', 'Sherman'),
 ('Billy', 'Sands'),
-('Pedro', 'Lovell');
+('Pedro', 'Lovell')
+('Amanda','Grace'),
+('Eniola','Oyetola'),
+('Adeola','Azaria'),
+('Aderinoye','Babatunde'),
+('Molawa','Davis'),
+('Dami','Deremi'),
+('Tega','Ethan'),
+('Chris','Iyanya'),
+('Korede','Izobo'),
+('Jide','Kosoko'),
+('Akin-Cole','Muyiwa'),
+('Kayode','Olaiya'),
+('Tolu','Osalie'),
+('Tope','Tendela');
 
 
 
