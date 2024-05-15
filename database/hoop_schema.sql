@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS profile (
 CREATE TABLE IF NOT EXISTS title (
     title_id INT AUTO_INCREMENT PRIMARY KEY,
     title_name VARCHAR(255),
-    title_type ENUM('movie', 'series'),
+    title_type ENUM('MOVIE', 'SHOW'),
     release_date DATE,
     image BLOB,
     genre VARCHAR(255),
