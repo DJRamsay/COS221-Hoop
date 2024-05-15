@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS subscription (
     subscription_type ENUM('basic', 'standard', 'premium'),
     subscription_rate DECIMAL(10, 2),
     subscription_start DATE
-)
+);
 
 -- Create account table
 CREATE TABLE IF NOT EXISTS account (
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS account (
     notif_pref BOOLEAN,
 
     FOREIGN KEY (subscription_id) REFERENCES subscription(subscription_id)
-)
+);
 
 -- Create profile table
 CREATE TABLE IF NOT EXISTS profile (
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS profile (
     profile_icon BLOB,
 
     FOREIGN KEY (account_id) REFERENCES account(account_id)
-)
+);
 
 -- Create title table
 CREATE TABLE IF NOT EXISTS title (
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS title (
     rating FLOAT,
     language VARCHAR(50),
     fss_address VARCHAR(255)
-)
+);
 
 -- Create series table
 CREATE TABLE IF NOT EXISTS series (
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS series (
     episode_num INT,
 
     FOREIGN KEY (title_id) REFERENCES title(title_id)
-)
+);
 
 -- Create movie table
 CREATE TABLE IF NOT EXISTS movie (
@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS movie (
     length INT,
 
     FOREIGN KEY (title_id) REFERENCES title(title_id)
-)
+);
 
 -- Create credit table
 CREATE TABLE IF NOT EXISTS credits (
@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS credits (
     sname VARCHAR(50),
     biography TEXT,
     DOB DATE
-)
+);
 
 CREATE TABLE IF NOT EXISTS title_credits (
     title_credit_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS title_credits (
 
     FOREIGN KEY (title_id) REFERENCES title(title_id),
     FOREIGN KEY (credit_id) REFERENCES credits(credit_id)
-)
+);
 
 
 -- Create review table
@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS review (
 
     FOREIGN KEY (title_id) REFERENCES title(title_id),
     FOREIGN KEY (profile_id) REFERENCES profile(profile_id)
-)
+);
 
 -- Create preferances table
 CREATE TABLE IF NOT EXISTS preferances (
@@ -118,4 +118,4 @@ CREATE TABLE IF NOT EXISTS preferances (
 
     FOREIGN KEY (title_id) REFERENCES title(title_id),
     FOREIGN KEY (profile_id) REFERENCES profile(profile_id)
-)
+);
