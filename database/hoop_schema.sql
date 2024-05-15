@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS profile (
 -- Create title table
 CREATE TABLE IF NOT EXISTS title (
     title_id INT AUTO_INCREMENT PRIMARY KEY,
-    titl_name VARCHAR(255),
+    title_name VARCHAR(255),
     title_type ENUM('movie', 'series'),
     release_date DATE,
     image BLOB,
@@ -61,8 +61,7 @@ CREATE TABLE IF NOT EXISTS title (
 
 -- Create series table
 CREATE TABLE IF NOT EXISTS series (
-    series_id INT AUTO_INCREMENT PRIMARY KEY,
-    title_id INT,
+     title_id INT PRIMARY KEY,
     season_num INT,
     episode_num INT,
 
@@ -71,8 +70,7 @@ CREATE TABLE IF NOT EXISTS series (
 
 -- Create movie table
 CREATE TABLE IF NOT EXISTS movie (
-    movie_id INT AUTO_INCREMENT PRIMARY KEY,
-    title_id INT,
+    title_id INT PRIMARY KEY,
     length INT,
 
     FOREIGN KEY (title_id) REFERENCES title(title_id)
