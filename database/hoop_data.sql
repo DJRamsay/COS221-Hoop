@@ -186,27 +186,27 @@ INSERT INTO credits(fname, sname) VALUES
 
 
 
-INSERT INTO title_credits (title_credits_id, title_id, credit_id, role, credit_type) VALUES
-(1,1,2,'Robert Rocky Balboa', 'ACTOR'),
-(1,2,2,'Adrianna Adrian Pennino', 'ACTOR'),
-(1,3,2,"Paulie Pennino", 'ACTOR'),
-(1,4,2,'Apollo Creed', 'ACTOR'),
-(1,5,2,'Mickey Goldmill', 'ACTOR'),
-(1,6,2,'George Miles Jergens' 'ACTOR'),
-(1,7,2,'Tony Gazzo', 'ACTOR'),
-(1,8,2,'Mike', 'ACTOR'),
-(1,9,2,'Fight Announcer', 'ACTOR'),
-(1,10,2,'Cut Man', 'ACTOR'),
-(1,11,2,'Ice Rink Attendant', 'ACTOR'),
-(1,12,2,'Marie', 'ACTOR'),
-(1,13,2,'TV Commentator 1', 'ACTOR'),
-(1,14,2,'TV Commentator 2', 'ACTOR'),
-(1,15,2,'TV Interviewer', 'ACTOR'),
-(1,16,2,'Dipper', 'ACTOR'),
-(1,17,2,'Bartender', 'ACTOR'),
-(1,18,2,'Club Fight Announcer', 'ACTOR'),
-(1,19,2,'Club Fighter', 'ACTOR'),
-(1,20,2,'Apollos Corner', 'ACTOR'),
+INSERT INTO title_credits (title_id, credit_id, role, credit_type) VALUES
+(1,2,'Robert Rocky Balboa', 'ACTOR'),
+(2,2,'Adrianna Adrian Pennino', 'ACTOR'),
+(3,2,"Paulie Pennino", 'ACTOR'),
+(4,2,'Apollo Creed', 'ACTOR'),
+(5,2,'Mickey Goldmill', 'ACTOR'),
+(6,2,'George Miles Jergens' 'ACTOR'),
+(7,2,'Tony Gazzo', 'ACTOR'),
+(8,2,'Mike', 'ACTOR'),
+(9,2,'Fight Announcer', 'ACTOR'),
+(10,2,'Cut Man', 'ACTOR'),
+(11,2,'Ice Rink Attendant', 'ACTOR'),
+(12,2,'Marie', 'ACTOR'),
+(13,2,'TV Commentator 1', 'ACTOR'),
+(14,2,'TV Commentator 2', 'ACTOR'),
+(15,2,'TV Interviewer', 'ACTOR'),
+(16,2,'Dipper', 'ACTOR'),
+(17,2,'Bartender', 'ACTOR'),
+(18,2,'Club Fight Announcer', 'ACTOR'),
+(19,2,'Club Fighter', 'ACTOR'),
+(20,2,'Apollos Corner', 'ACTOR');
 
 
 
