@@ -161,6 +161,27 @@ INSERT INTO review (title_id, profile_id, review, rating, timestamp) VALUES
 (19, 19, "Addictive series, binge-watched it in one sitting.", 5, '2024-04-27 10:20:00'),
 (20, 20, "Predictable movie, nothing new.", 2, '2024-04-26 19:00:00');
 
+INSERT INTO credits(fname, sname) VALUES
+('Sylvester', 'Stallone'),
+('Talia', 'Shire'),
+('Burt', 'Young'),
+('Carl', 'Weathers'),
+('Burgess', 'Meredith'),
+('Thayer', 'David'),
+('Joe', 'Spinell'),
+('Jimmy', 'Gambina'),
+('Bill', 'Baldwin'),
+('Al', 'Silvani'),
+('George', 'Memmoli'),
+('Jodi', 'Letizia'),
+('Diana', 'Lewis'),
+('George', 'O'Hanlon'),
+('Larry', 'Carroll'),
+('Stan', 'Shaw'),
+('Don', 'Sherman'),
+('Billy', 'Sands'),
+('Pedro', 'Lovell');
+
 
 
 
