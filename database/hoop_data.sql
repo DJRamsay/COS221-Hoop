@@ -138,3 +138,33 @@ INSERT INTO movie (title_id, length) VALUES
 (8, 18),
 (9, 19),
 (10, 20);
+
+INSERT INTO review (title_id, profile_id, review, rating, timestamp) VALUES
+(1, 1, "Great series, loved every minute of it!", 5, '2024-05-15 08:30:00'),
+(2, 2, "Amazing movie, must-watch!", 5, '2024-05-14 12:45:00'),
+(3, 3, "Enjoyable series, but the ending felt rushed.", 4, '2024-05-13 18:20:00'),
+(4, 4, "Good movie, but it could've been better.", 3, '2024-05-12 21:10:00'),
+(5, 5, "Disappointing series, didn't live up to the hype.", 2, '2024-05-11 14:00:00'),
+(6, 6, "Average movie, nothing special.", 3, '2024-05-10 09:15:00'),
+(7, 7, "Boring series, couldn't get into it.", 1, '2024-05-09 17:30:00'),
+(8, 8, "Excellent movie, highly recommended!", 5, '2024-05-08 22:45:00'),
+(9, 9, "Interesting series, kept me hooked till the end.", 4, '2024-05-07 10:20:00'),
+(10, 10, "Mediocre movie, didn't meet expectations.", 2, '2024-05-06 19:00:00'),
+(11, 11, "Incredible series, can't wait for the next season!", 5, '2024-05-05 15:30:00'),
+(12, 12, "Fascinating movie, loved the plot twists.", 4, '2024-05-04 08:45:00'),
+(13, 13, "Decent series, but forgettable overall.", 3, '2024-05-03 16:20:00'),
+(14, 14, "Entertaining movie, perfect for a lazy evening.", 4, '2024-05-02 21:10:00'),
+(15, 15, "Uninspiring series, struggled to finish it.", 2, '2024-05-01 14:00:00'),
+(16, 16, "Captivating movie, kept me guessing till the end.", 5, '2024-04-30 09:15:00'),
+(17, 17, "Engaging series, loved the character development.", 4, '2024-04-29 17:30:00'),
+(18, 18, "Thrilling movie, had me on the edge of my seat!", 5, '2024-04-28 22:45:00'),
+(19, 19, "Addictive series, binge-watched it in one sitting.", 5, '2024-04-27 10:20:00'),
+(20, 20, "Predictable movie, nothing new.", 2, '2024-04-26 19:00:00');
+
+
+
+
+
+
+
+
