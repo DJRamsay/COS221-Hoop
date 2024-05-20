@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS subscription (
     subscription_type ENUM('basic', 'standard', 'premium'),
     subscription_rate DECIMAL(10, 2),
     subscription_start DATE
+    max_profiles INT;
 );
 
 -- Create account table
@@ -119,3 +120,30 @@ CREATE TABLE IF NOT EXISTS preferances (
     FOREIGN KEY (title_id) REFERENCES title(title_id),
     FOREIGN KEY (profile_id) REFERENCES profile(profile_id)
 );
+
+DELIMITER //
+
+CREATE TRIGGER before_profile_insert BEFORE INSERT ON profile
+FOR EACH ROW
+BEGIN
+    DECLARE profile_count INT;
+    DECLARE max_profiles INT;
+
+    SELECT s.max_profiles
+    INTO max_profiles
+    FROM subscription s
+    JOIN account a ON s.subscription_id = a.subscription_id
+    WHERE a.account_id = NEW.account_id;
+
+    SELECT COUNT(*)
+    INTO profile_count
+    FROM profile
+    WHERE account_id = NEW.account_id;
+
+    IF profile_count >= max_profiles THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'This account already has the maximum number of profiles.';
+    END IF;
+END//
+
+DELIMITER ;
