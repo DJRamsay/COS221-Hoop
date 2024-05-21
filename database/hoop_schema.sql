@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS account (
     notif_pref BOOLEAN NOT NULL DEFAULT TRUE,
 
     FOREIGN KEY (subscription_id) REFERENCES subscription(subscription_id)
+    ON DELETE CASCADE
 );
 
 -- Create profile table
@@ -43,6 +44,7 @@ CREATE TABLE IF NOT EXISTS profile (
     profile_icon BLOB,
 
     FOREIGN KEY (account_id) REFERENCES account(account_id)
+    ON DELETE CASCADE
 );
 
 -- Create title table
@@ -69,6 +71,7 @@ CREATE TABLE IF NOT EXISTS series (
     episode_num INT NOT NULL,
 
     FOREIGN KEY (title_id) REFERENCES title(title_id)
+    ON DELETE CASCADE
 );
 
 -- Create movie table
@@ -78,6 +81,7 @@ CREATE TABLE IF NOT EXISTS movie (
     length INT NOT NULL,
 
     FOREIGN KEY (title_id) REFERENCES title(title_id)
+    ON DELETE CASCADE
 );
 
 -- Create credit table
@@ -94,8 +98,10 @@ CREATE TABLE IF NOT EXISTS title_credits (
     role VARCHAR(100),
     credit_type ENUM('ACTOR', 'DIRECTOR'),
 
-    FOREIGN KEY (title_id) REFERENCES title(title_id),
+    FOREIGN KEY (title_id) REFERENCES title(title_id)
+    ON DELETE CASCADE,
     FOREIGN KEY (credit_id) REFERENCES credits(credit_id)
+    ON DELETE CASCADE
 );
 
 
@@ -108,8 +114,10 @@ CREATE TABLE IF NOT EXISTS review (
     rating INT NOT NULL, 
     timestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (title_id) REFERENCES title(title_id),
+    FOREIGN KEY (title_id) REFERENCES title(title_id)
+    ON DELETE CASCADE,
     FOREIGN KEY (profile_id) REFERENCES profile(profile_id)
+    ON DELETE CASCADE
 );
 
 -- Create preferances table
@@ -118,8 +126,10 @@ CREATE TABLE IF NOT EXISTS preferences (
     title_id INT NOT NULL,
     profile_id INT NOT NULL,
 
-    FOREIGN KEY (title_id) REFERENCES title(title_id),
-    FOREIGN KEY (profile_id) REFERENCES profile(profile_id)
+    FOREIGN KEY (title_id) REFERENCES title(title_id) 
+    ON DELETE CASCADE,
+    FOREIGN KEY (profile_id) REFERENCES profile(profile_id) 
+    ON DELETE CASCADE
 );
 
 --Trigger to ensure max_profiles is not violated
