@@ -1,53 +1,46 @@
-INSERT INTO subscription (subscription_type, subscription_rate, subscription_start) VALUES
-    -> ('basic', 250.00, '2023-01-01'),
-    -> ('standard', 350.00, '2023-02-01'),
-    -> ('premium', 450.00, '2023-03-01'),
-    -> ('basic', 250.00, '2023-04-01'),
-    -> ('standard', 350.00, '2023-05-01'),
-    -> ('premium', 450.00, '2023-06-01'),
-    -> ('basic', 250.00, '2023-07-01'),
-    -> ('standard', 350.00, '2023-08-01'),
-    -> ('premium', 450.00, '2023-09-01'),
-    -> ('basic', 250.00, '2023-10-01');
+INSERT INTO subscription (subscription_type, subscription_rate, subscription_start, max_profiles) VALUES
+('basic', 250.00, '2023-01-01', 1),
+('standard', 350.00, '2023-02-01', 3),
+('premium', 450.00, '2023-03-01', 5);
 
-INSERT INTO account (subscription_id, fname, sname, phone, email, password, notif_pref) VALUES
-    -> (1, 'John', 'Doe', '0823456789', 'john.doe@example.com', 'Password123!', TRUE),
-    -> (2, 'Jane', 'Smith', '0834567890', 'jane.smith@example.com', 'Password456!', FALSE),
-    -> (3, 'Alice', 'Johnson', '0845678901', 'alice.johnson@example.com', 'Password789!', TRUE),
-    -> (4, 'Robert', 'Brown', '0856789012', 'robert.brown@example.com', 'Password012!', FALSE),
-    -> (5, 'Emily', 'Davis', '0867890123', 'emily.davis@example.com', 'Password345!', TRUE),
-    -> (6, 'Michael', 'Wilson', '0878901234', 'michael.wilson@example.com', 'Password678!', FALSE),
-    -> (7, 'Emma', 'Moore', '0889012345', 'emma.moore@example.com', 'Password901!', TRUE),
-    -> (8, 'Daniel', 'Taylor', '0890123456', 'daniel.taylor@example.com', 'Password234!', FALSE),
-    -> (9, 'Sophia', 'Anderson', '0801234567', 'sophia.anderson@example.com', 'Password567!', TRUE),
-    -> (10, 'James', 'Thomas', '0812345678', 'james.thomas@example.com', 'Password890!', FALSE);
+INSERT INTO account (subscription_id, fname, sname, phone, email, account_start, password, notif_pref) VALUES
+(1, 'John', 'Doe', '0823456789', 'john.doe@example.com', '2024-05-21' ,'Password123!', TRUE),
+(2, 'Jane', 'Smith', '0834567890', 'jane.smith@example.com', '2024-05-21' ,'Password456!', FALSE),
+(3, 'Alice', 'Johnson', '0845678901', 'alice.johnson@example.com', '2024-05-21' ,'Password789!', TRUE),
+(1, 'Robert', 'Brown', '0856789012', 'robert.brown@example.com', '2024-05-21' ,'Password012!', FALSE),
+(2, 'Emily', 'Davis', '0867890123', 'emily.davis@example.com', '2024-05-21' ,'Password345!', TRUE),
+(3, 'Michael', 'Wilson', '0878901234', 'michael.wilson@example.com', '2024-05-21' ,'Password678!', FALSE),
+(1, 'Emma', 'Moore', '0889012345', 'emma.moore@example.com', '2024-05-21' ,'Password901!', TRUE),
+(2, 'Daniel', 'Taylor', '0890123456', 'daniel.taylor@example.com', '2024-05-21' ,'Password234!', FALSE),
+(3, 'Sophia', 'Anderson', '0801234567', 'sophia.anderson@example.com', '2024-05-21' ,'Password567!', TRUE),
+(1, 'James', 'Thomas', '0812345678', 'james.thomas@example.com', '2024-05-21' ,'Password890!', FALSE);
 
 INSERT INTO profile(account_id, profile_age, profile_icon) VALUES
-    -> (1, 18, NULL),
-    -> (2, 35, NULL),
-    -> (2, 34, NULL),
-    -> (2, 8, NULL),
-    -> (3, 45, NULL),
-    -> (3, 47, NULL),
-    -> (3, 12, NULL),
-    -> (3, 20, NULL),
-    -> (4, 21, NULL),
-    -> (5, 37, NULL),
-    -> (5, 37, NULL),
-    -> (5, 38, NULL),
-    -> (6, 71, NULL),
-    -> (6, 50, NULL),
-    -> (6, 45, NULL),
-    -> (6, 43, NULL),
-    -> (6, 31, NULL),
-    -> (7, 30, NULL),
-    -> (8, 21, NULL),
-    -> (8, 20, NULL),
-    -> (8, 16, NULL),
-    -> (9, 30, NULL),
-    -> (9, 32, NULL),
-    -> (9, 29, NULL),
-    -> (10, 40, NULL);
+(1, 18, NULL),
+(2, 35, NULL),
+(2, 34, NULL),
+(2, 8, NULL),
+(3, 45, NULL),
+(3, 47, NULL),
+(3, 12, NULL),
+(3, 20, NULL),
+(4, 21, NULL),
+(5, 37, NULL),
+(5, 37, NULL),
+(5, 38, NULL),
+(6, 71, NULL),
+(6, 50, NULL),
+(6, 45, NULL),
+(6, 43, NULL),
+(6, 31, NULL),
+(7, 30, NULL),
+(8, 21, NULL),
+(8, 20, NULL),
+(8, 16, NULL),
+(9, 30, NULL),
+(9, 32, NULL),
+(9, 29, NULL),
+(10, 40, NULL);
 
 INSERT INTO title (title_name, title_type, release_date, image, genre, description, studio, pg_rating, rating, language, fss_address) VALUES
 ('Five Came Back: The Reference Films', 'SHOW', '1945-01-01', NULL, '[documentation]', 'This collection includes 12 World War II-era propaganda films — many of which are graphic and offensive — discussed in the docuseries "Five Came Back."', NULL, 'TV-MA', NULL, NULL, 'https://www.fss_address.com'),
@@ -117,7 +110,7 @@ INSERT INTO movie (title_id, length) VALUES
 (19,110),
 (20,300);
 
-     INSERT INTO preferances (title_id, profile_id) VALUES
+INSERT INTO preferences (title_id, profile_id) VALUES
 (1, 1),
 (2, 2),
 (3, 3),
@@ -175,56 +168,32 @@ INSERT INTO credits(fname, sname) VALUES
 ('George', 'Memmoli'),
 ('Jodi', 'Letizia'),
 ('Diana', 'Lewis'),
-('George', 'O'Hanlon'),
+('George', 'OHanlon'),
 ('Larry', 'Carroll'),
 ('Stan', 'Shaw'),
 ('Don', 'Sherman'),
 ('Billy', 'Sands'),
-('Pedro', 'Lovell')
-('Amanda','Grace'),
-('Eniola','Oyetola'),
-('Adeola','Azaria'),
-('Aderinoye','Babatunde'),
-('Molawa','Davis'),
-('Dami','Deremi'),
-('Tega','Ethan'),
-('Chris','Iyanya'),
-('Korede','Izobo'),
-('Jide','Kosoko'),
-('Akin-Cole','Muyiwa'),
-('Kayode','Olaiya'),
-('Tolu','Osalie'),
-('Tope','Tendela');
-
-
-
-
+('Pedro', 'Lovell'),
+('Bob', 'Bobson');
 
 INSERT INTO title_credits (title_id, credit_id, role, credit_type) VALUES
-(1,2,'Robert Rocky Balboa', 'ACTOR'),
+(2,1,'Robert Rocky Balboa', 'ACTOR'),
 (2,2,'Adrianna Adrian Pennino', 'ACTOR'),
-(3,2,"Paulie Pennino", 'ACTOR'),
-(4,2,'Apollo Creed', 'ACTOR'),
-(5,2,'Mickey Goldmill', 'ACTOR'),
-(6,2,'George Miles Jergens' 'ACTOR'),
-(7,2,'Tony Gazzo', 'ACTOR'),
-(8,2,'Mike', 'ACTOR'),
-(9,2,'Fight Announcer', 'ACTOR'),
-(10,2,'Cut Man', 'ACTOR'),
-(11,2,'Ice Rink Attendant', 'ACTOR'),
-(12,2,'Marie', 'ACTOR'),
-(13,2,'TV Commentator 1', 'ACTOR'),
-(14,2,'TV Commentator 2', 'ACTOR'),
-(15,2,'TV Interviewer', 'ACTOR'),
-(16,2,'Dipper', 'ACTOR'),
-(17,2,'Bartender', 'ACTOR'),
-(18,2,'Club Fight Announcer', 'ACTOR'),
-(19,2,'Club Fighter', 'ACTOR'),
-(20,2,'Apollos Corner', 'ACTOR');
-
-
-
-
-
-
-
+(2,3,"Paulie Pennino", 'ACTOR'),
+(2,4,'Apollo Creed', 'ACTOR'),
+(2,5,'Mickey Goldmill', 'ACTOR'),
+(2,6,'George Miles Jergens', 'ACTOR'),
+(2,7,'Tony Gazzo', 'ACTOR'),
+(2,8,'Mike', 'ACTOR'),
+(2,9,'Fight Announcer', 'ACTOR'),
+(2,10,'Cut Man', 'ACTOR'),
+(2,11,'Ice Rink Attendant', 'ACTOR'),
+(2,12,'Marie', 'ACTOR'),
+(2,13,'TV Commentator 1', 'ACTOR'),
+(2,14,'TV Commentator 2', 'ACTOR'),
+(2,15,'TV Interviewer', 'ACTOR'),
+(2,16,'Dipper', 'ACTOR'),
+(2,17,'Bartender', 'ACTOR'),
+(2,18,'Club Fight Announcer', 'ACTOR'),
+(2,19,'Club Fighter', 'ACTOR'),
+(2,20,'Apollos Corner', 'ACTOR');
