@@ -38,14 +38,14 @@
         }
 
         public function registerAccount($data) {
-            $sname = $data['fname'];
+            $fname = $data['fname'];
             $sname = $data['sname'];
             $sub = $data['subscription'];
             $phone = $data['phone'];
             $email = $data['email'];
             $account_start = $data['account_start'];
             $password = $data['password'];
-            $notif_pref = $data['notif_prep'];
+            $notif_pref = $data['notif_pref'];
 
             //Test for empty fields
             if ($fname == "" || $sname == "") {
@@ -82,24 +82,16 @@
 
             $hash = password_hash($password, PASSWORD_ARGON2ID);
 
-            // //create api key
-
-            do {
-                $api_key = bin2hex(random_bytes(20));
-            }
-            while ($this->validAPIKey($api_key));
-
-
             //Add to database
             $conn = $this->getConnection();
-            $sql = "insert into account (fname, sname, phone, email, account_start, password, apikey) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $sql = "insert into account (subscription_id, fname, sname, phone, email, account_start, password, notif_pref) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("issssss", $sub $fname, $sname, $phone, $email, $account_start, $hash, $api_key);
+            $stmt->bind_param("isssssss", $sub, $fname, $sname, $phone, $email, $account_start, $hash, $notif_pref);
             if ($stmt->execute()) {
                 $response = [
                     "status" => "success",
                     "timestamp" => time(), 
-                    "data" => ["apikey" => $api_key]
+                    "data" => ["email" => $email]
                 ];
                 
                 echo json_encode($response);
@@ -301,7 +293,7 @@
 
         public function validEmail($email){
             $conn = $this->getConnection();
-            $sql = "SELECT * FROM users WHERE email = ?";
+            $sql = "SELECT * FROM account WHERE email = ?";
         
             // Prepare the SQL statement
             $stmt = $conn->prepare($sql);
@@ -325,7 +317,7 @@
                 throw new Exception("Database connection error: " . $conn->error);
             }
         
-            $sql = "SELECT * FROM users WHERE apikey = ?";
+            $sql = "SELECT * FROM profile WHERE apikey = ?";
             $stmt = $conn->prepare($sql);
             if (!$stmt) {
                 throw new Exception("Error preparing SQL statement: " . $conn->error);
@@ -365,7 +357,6 @@
 
     $instance = Database::instance();
     $type = $data['type'];
-    echo "Hello";
     if ($type == "Register Account") {
         $instance->registerAccount($data);        
     } else if ($type = "Register Profile"){
