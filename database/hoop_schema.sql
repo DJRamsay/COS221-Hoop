@@ -87,15 +87,14 @@ CREATE TABLE IF NOT EXISTS movie (
 -- Create credit table
 CREATE TABLE IF NOT EXISTS credits (
     credit_id INT AUTO_INCREMENT PRIMARY KEY,
-    fname VARCHAR(50) NOT NULL, 
-    sname VARCHAR(50) NOT NULL
+    name VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS title_credits (
     title_credit_id INT AUTO_INCREMENT PRIMARY KEY,
     title_id INT NOT NULL,
     credit_id INT NOT NULL,
-    role VARCHAR(100),
+    role VARCHAR(255),
     credit_type ENUM('ACTOR', 'DIRECTOR'),
 
     FOREIGN KEY (title_id) REFERENCES title(title_id)
