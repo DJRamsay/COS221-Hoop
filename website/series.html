@@ -31,53 +31,103 @@
             <input type="text" placeholder="Search..." id="searchbar">
             <button type="button">Search</button>
         </div>
+        <br>
+        <div class="filter">
+            <select id="genre">
+                <option value="" disabled selected>Genre</option>
+                <option value="action">Action</option>
+                <option value="comedy">Comedy</option>
+                <option value="crime">Crime</option>
+                <option value="documentation">Documentation</option>
+                <option value="drama">Drama</option>
+                <option value="family">Family</option>
+                <option value="horror">Horro</option>
+                <option value="sci-fi">Sci-Fi</option>
+                <option value="sport">Sport</option>
+                <option value="romance">Romance</option>
+                <option value="thriller">Thriller</option>
+            </select>
+            <select id="pg-rating">
+                <option value="" disabled selected>PG-Rating</option>
+                <option value="pg">PG</option>
+                <option value="r">R</option>
+                <option value="tv-14">TV-14</option>
+                <option value="tv-ma">TV-MA</option>
+                <option value="16+">16+</option>
+                <option value="18+">18+</option>
+            </select>
+            <select id="rating">
+                <option value="" disabled selected>Rating</option>
+                <option value="1+">1+</option>
+                <option value="2+">2+</option>
+                <option value="3+">3+</option>
+                <option value="4+">4+</option>
+                <option value="5+">5+</option>
+                <option value="6+">6+</option>
+                <option value="7+">7+</option>
+                <option value="8+">8+</option>
+                <option value="9+">9+</option>
+                <option value="10">10+</option>
+            </select>
+            <button type="button" >Filter</button>
+        </div>
         
         <!--Series Section-->
-    <section class="movies" id = "">
-        <div class="movies_container">
-            <!--Box 1-->
-            <div class="box">
-                <div class="box_image">
-                    <img src="img/13reasons.jpg" alt="">
-                </div> 
-                <h3>13 Reasons Why</h3>
-                <span>4 Seasons | Teen </span>
+        <section class="movies" id="">
+            <div class="movies_container">
+                <!--Box 1-->
+                <div class="box">
+                    <div class="box_image">
+                        <a href="details.html">
+                            <img src="img/13reasons.jpg" alt="">
+                        </a>
+                    </div>
+                    <h3>13 Reasons Why</h3>
+                    <span>4 Seasons | Teen </span>
+                </div>
+                <!--Box 2-->
+                <div class="box">
+                    <div class="box_image">
+                        <a href="details.html">
+                            <img src="img/htgawm.jpg" alt="">
+                        </a>
+                    </div>
+                    <h3>How to get away with murder</h3>
+                    <span>6 Seasons | Drama </span>
+                </div>
+                <!--Box 3-->
+                <div class="box">
+                    <div class="box_image">
+                        <a href="details.html">
+                            <img src="img/otnb.jpg" alt="">
+                        </a>
+                    </div>
+                    <h3>Orange is the new black</h3>
+                    <span>7 Seasons | Dark Comedy </span>
+                </div>
+                <!--Box 4-->
+                <div class="box">
+                    <div class="box_image">
+                        <a href="details.html">
+                            <img src="img/strangerThings.jpg" alt="">
+                        </a>
+                    </div>
+                    <h3>Stranger Things</h3>
+                    <span>4 Seasons | Science Fiction </span>
+                </div>
+                <!--Box 5-->
+                <div class="box">
+                    <div class="box_image">
+                        <a href="details.html">
+                            <img src="img/shameless.jpg" alt="">
+                        </a>
+                    </div>
+                    <h3>Shameless</h3>
+                    <span>9 seasons | Drama </span>
+                </div>
             </div>
-             <!--Box 2-->
-             <div class="box">
-                <div class="box_image">
-                    <img src="img/htgawm.jpg" alt="">
-                </div> 
-                <h3>How to get away with murder</h3>
-                <span>6 Seasons | Drama </span>
-            </div>
-             <!--Box 3-->
-             <div class="box">
-                <div class="box_image">
-                    <img src="img/otnb.jpg" alt="">
-                </div> 
-                <h3>Orange is the new black</h3>
-                <span> 7 Seasons | Dark Comedy </span>
-            </div>
-             <!--Box 4-->
-             <div class="box">
-                <div class="box_image">
-                    <img src="img/strangerThings.jpg" alt="">
-                </div> 
-                <h3>Stranger Things</h3>
-                <span>4 Seasons | Science Fiction </span>
-            </div>
-             <!--Box 5-->
-             <div class="box">
-                <div class="box_image">
-                    <img src="img/shameless.jpg" alt="">
-                </div> 
-                <h3>Shameless</h3>
-                <span>9 seasons | Drama </span>
-            </div>
-    
-        </div>
         </section>
+        
         
     </main>
 
