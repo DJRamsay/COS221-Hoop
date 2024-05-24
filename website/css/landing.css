@@ -80,3 +80,34 @@ p{
     font-family: Arial, Helvetica, sans-serif;
     font-size: 20px;
 }
+#loadingPage{
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    z-index: 100;
+    background : white url(loading2.gif) no-repeat center ;
+    transition: opacity 0.8s, visibility 0.8s;
+    background-size: 20%;
+     
+}
+#loadingPage-hidden{
+    opacity: 0;
+    visibility: hidden;
+}
+#loadingPage::after{
+    content: "";
+    width: 75px;
+    height: 75px;
+    border: 15px solid white;
+    border-top-color: dodgerblue;
+    border-radius: 50%;
+    animation: loading 0.8s ease infinite;
+}
+@keyframes loading {
+    from {
+        transform: rotate(0turn);
+    }
+    to {
+        transform: rotate(1turn);
+    }
+}
