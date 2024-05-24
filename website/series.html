@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/home.css">
 </head>
 <body>
+    <div id="loadingPage"></div>
     <header>
             <div class="wholelogo">
                 <img src="img/logo.jpg" id="logo" width="50px">
@@ -73,59 +74,10 @@
         </div>
         
         <!--Series Section-->
-        <section class="movies" id="">
-            <div class="movies_container">
-                <!--Box 1-->
-                <div class="box">
-                    <div class="box_image">
-                        <a href="details.html">
-                            <img src="img/13reasons.jpg" alt="">
-                        </a>
-                    </div>
-                    <h3>13 Reasons Why</h3>
-                    <span>4 Seasons | Teen </span>
-                </div>
-                <!--Box 2-->
-                <div class="box">
-                    <div class="box_image">
-                        <a href="details.html">
-                            <img src="img/htgawm.jpg" alt="">
-                        </a>
-                    </div>
-                    <h3>How to get away with murder</h3>
-                    <span>6 Seasons | Drama </span>
-                </div>
-                <!--Box 3-->
-                <div class="box">
-                    <div class="box_image">
-                        <a href="details.html">
-                            <img src="img/otnb.jpg" alt="">
-                        </a>
-                    </div>
-                    <h3>Orange is the new black</h3>
-                    <span>7 Seasons | Dark Comedy </span>
-                </div>
-                <!--Box 4-->
-                <div class="box">
-                    <div class="box_image">
-                        <a href="details.html">
-                            <img src="img/strangerThings.jpg" alt="">
-                        </a>
-                    </div>
-                    <h3>Stranger Things</h3>
-                    <span>4 Seasons | Science Fiction </span>
-                </div>
-                <!--Box 5-->
-                <div class="box">
-                    <div class="box_image">
-                        <a href="details.html">
-                            <img src="img/shameless.jpg" alt="">
-                        </a>
-                    </div>
-                    <h3>Shameless</h3>
-                    <span>9 seasons | Drama </span>
-                </div>
-            </div>
+        <!-- This is where the titles will be viewed -->
+        <section class="movies" id="movies">
+            <!-- Movies container -->
+            <div class="movies_container"></div>
         </section>
         
         
@@ -134,5 +86,6 @@
     <footer>
         <p>&copy; 2024 Hoop Entertainment. All rights reserved.</p>
     </footer>
+    <script src="js/series.js"></script>
 </body>
 </html>
