@@ -43,6 +43,26 @@ async function loadSeries2() {
 
     loadingScreen.style.display = "none";
 }
+async function loadRecommendedTitles(){
+    const seriessContainer = document.querySelector(".recommended_titles");
+    const loadingScreen = document.getElementById("loadingPage");
+
+    loadingScreen.style.display = "block";
+
+    for (let i = 1; i <= 4; i++) {
+        try {
+            // Fetch series data using XMLHttpRequest
+            const series = await fetchRecommendedTitles(i);
+            createSeriesElement(series, seriessContainer);
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+
+    loadingScreen.style.display = "none";
+
+}
+
 
 // Function to fetch series data using XMLHttpRequest
 function fetchSeriesData(seriesId) {
@@ -60,6 +80,33 @@ function fetchSeriesData(seriesId) {
                         seriesData.imageUrls = imageUrls;
                         resolve(seriesData);
                     });
+                } else {
+                    reject(new Error(`Error fetching series with ID ${seriesId}`));
+                }
+            }
+        };
+
+        xhr.send();
+    });
+}
+function fetchRecommendedTitles(seriesId) {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", `https://api.tvmaze.com/shows/${seriesId}`, true);
+        
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    const seriesData = JSON.parse(xhr.responseText);
+                    const imdbID = seriesData.externals.imdb;
+                    const rating = seriesData.rating.average;
+                    // Fetch image URL from the TVmaze API using the IMDb ID
+                    if (rating >= 8.5){
+                    fetchImageUrl(imdbID, function(imageUrls) {
+                        seriesData.imageUrls = imageUrls;
+                        resolve(seriesData);
+                    });
+                }
                 } else {
                     reject(new Error(`Error fetching series with ID ${seriesId}`));
                 }
@@ -120,18 +167,4 @@ function createSeriesElement(series, container) {
     `;
 
     container.appendChild(seriesElement);
-}
-//This function will filter the series/movies page based on genre
-
-function filterByGenre(){
-
-
-}
-//This function will filter the series/movies page based on genre
-function filterByPGRating(){
-    
-}
-//This function will filter the series/movies page based on genre
-function filterByRating(){
-    
 }
