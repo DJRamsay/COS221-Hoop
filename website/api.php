@@ -565,72 +565,156 @@
                     echo $this->errorResponse("Missing Title Details!");
                 }
             }
-
         
-    
-    public function removeTitle($data){
-        // gonna identify title to delete based on the name,type and release date
-        if(isset($data['title_name']) && isset($data['title_type']) && isset($data['release_date'])){
-            $title_name = $data['title_name'];
-            $title_type = $data['title_type'];
-            $release_date = $data['release_date'];
-
-            // Validate release_date
-            if (!DateTime::createFromFormat('Y-m-d', $release_date)) {
-                http_response_code(400);
-                echo json_encode(array("message" => "Invalid date format. Please use YYYY-MM-DD."));
-                return;
-            }
-            $conn = $this->getConnection();
-            $sql = "DELETE FROM title WHERE title_name = ? AND title_type = ? AND release_date = ?";
-            $stmt = $conn->prepare($sql);
-
-            $stmt->bind_param("sss", $title_name, $title_type, $release_date);
-            if (!$stmt->execute()) {
-                error_log("Error executing query: " . $stmt->error);
-                http_response_code(500);
-                echo json_encode(array("message" => "Unable to delete Title from database."));
-                $stmt->close();
-                return;
-            }                
-
-            if ($stmt->affected_rows > 0) {
-                http_response_code(200);
-                echo json_encode(array("message" => "Title successfully deleted from database"));
-            } else {
-                http_response_code(404);
-                echo json_encode(array("message" => "Title not found."));
-            }
-    
-            // Close statement
-            $stmt->close();
-
-        }else
+        //function to delete a a user and their associated profiles from the database
+        public function DeleteUserAndProfiles($data)
         {
-            http_response_code(400);
-            echo $this->errorResponse("Missing Title Details For delete");
-            }
+            if(isset($data['account_id']))
+            {
+                $account_id = $data['account_id'];
 
-    }
-    /*public function updateTitle($data) {
-        if (isset($data['title_name']) || isset($data['title_type']) || isset($data['release_date']) || isset($data['description'])) {
+                $conn = $this->getConnection();
+                //delete associated profiles from the database
+                $sql = "DELETE FROM `profile` WHERE account_id LIKE $account_id";
+                $stmt = $conn->prepare($sql);
+
+                if (!$stmt->execute()) {
+                    error_log("Error executing query: " . $stmt->error);
+                    http_response_code(500);
+                    echo json_encode(array("message" => "Unable to delete profiles from database."));
+                    $stmt->close();
+                    return;
+                }                
+
+                http_response_code(201);
+                echo json_encode(array("message" => "Profiles successfully deleted from database"));
+
+                // Close statement
+                $stmt->close();
+
+                //delete account from the database
+                $sql = "DELETE FROM account WHERE account_id LIKE $account_id";
+                $stmt = $conn->prepare($sql);
+
+                if (!$stmt->execute()) {
+                    error_log("Error executing query: " . $stmt->error);
+                    http_response_code(500);
+                    echo json_encode(array("message" => "Unable delete account from database."));
+                    $stmt->close();
+                    return;
+                }                
+
+                http_response_code(201);
+                echo json_encode(array("message" => "account successfully deleted from database"));
+
+                // Close statement
+                $stmt->close();
+
+
+
+            }
+            else
+            {
+                echo $this->errorResponse("Missing account id");
+            }
+        }
+
+        //function to Update a title
+        public function updateTitle($data) {
+            if (!isset($data['title_id'])) {
+                http_response_code(400);
+                echo json_encode(array("message" => "Title ID is required for update."));
+                return;
+            }
+        
+            $title_id = $data['title_id'];
             $conn = $this->getConnection();
-            
+        
             $fields = [];
             $params = [];
             $types = '';
-
-            $sql = "UPDATE title SET ";
-    
-    
+        
+            if (isset($data['title_name'])) {
+                $fields[] = "title_name = ?";
+                $params[] = $data['title_name'];
+                $types .= 's';
+            }
+            if (isset($data['title_type'])) {
+                $fields[] = "title_type = ?";
+                $params[] = $data['title_type'];
+                $types .= 's';
+            }
+            if (isset($data['release_date'])) {
+                // Validate release_date
+                if (!DateTime::createFromFormat('Y-m-d', $data['release_date'])) {
+                    http_response_code(400);
+                    echo json_encode(array("message" => "Invalid date format. Please use YYYY-MM-DD."));
+                    return;
+                }
+                $fields[] = "release_date = ?";
+                $params[] = $data['release_date'];
+                $types .= 's';
+            }
+            if (isset($data['genre'])) {
+                $fields[] = "genre = ?";
+                $params[] = $data['genre'];
+                $types .= 's';
+            }
+            if (isset($data['image'])) {
+                $fields[] = "image = ?";
+                $params[] = $data['image'];
+                $types .= 'b';
+            }
+            if (isset($data['description'])) {
+                $fields[] = "description = ?";
+                $params[] = $data['description'];
+                $types .= 's';
+            }
+            if (isset($data['pg_rating'])) {
+                $fields[] = "pg_rating = ?";
+                $params[] = $data['pg_rating'];
+                $types .= 's';
+            }
+            if (isset($data['rating'])) {
+                $fields[] = "rating = ?";
+                $params[] = $data['rating'];
+                $types .= 'd';
+            }
+            if (isset($data['language'])) {
+                $fields[] = "language = ?";
+                $params[] = $data['language'];
+                $types .= 's';
+            }
+            if (isset($data['studio'])) {
+                $fields[] = "studio = ?";
+                $params[] = $data['studio'];
+                $types .= 's';
+            }
+            if (isset($data['fss_address'])) {
+                $fields[] = "fss_address = ?";
+                $params[] = $data['fss_address'];
+                $types .= 's';
+            }
+        
+            if (empty($fields)) {
+                http_response_code(400);
+                echo json_encode(array("message" => "No valid fields to update."));
+                return;
+            }
+        
+            $sql = "UPDATE title SET " . implode(', ', $fields) . " WHERE title_id = ?";
+            $params[] = $title_id;
+            $types .= 'i';
+        
+            $stmt = $conn->prepare($sql);
             if (!$stmt) {
                 http_response_code(500);
                 echo json_encode(array("message" => "Unable to prepare statement."));
                 return;
             }
-    
+        
             $stmt->bind_param($types, ...$params);
-    
+        
             if (!$stmt->execute()) {
                 error_log("Error executing query: " . $stmt->error);
                 http_response_code(500);
@@ -638,24 +722,20 @@
                 $stmt->close();
                 return;
             }
-    
+        
             if ($stmt->affected_rows > 0) {
                 http_response_code(200);
                 echo json_encode(array("message" => "Title successfully updated"));
             } else {
                 http_response_code(404);
-                echo json_encode(array("message" => "Title not found."));
+                echo json_encode(array("message" => "Title not found or no change detected."));
             }
-    
+        
             // Close statement
             $stmt->close();
-        } else {
-            http_response_code(400);
-            echo json_encode(array("message" => "Missing Title Details For update"));
         }
-    }
-    }    
-*/
+        
+
     }
 
 
@@ -696,11 +776,12 @@
     else if ($type == "AddTitle") {
         echo $instance->AddTitle($data);
     }
-    else if ($type == "removeTitle") {
-        echo $instance->removeTitle($data);
-    }
-    else if ($type == "updateTitle") {
+    else if ($type == "UpdateTitle") {
         echo $instance->updateTitle($data);
+    }
+    else if ($type == "DeleteUserAndProfiles")
+    {
+        echo $instance->DeleteUserAndProfiles($data);
     }
     //$instance->getAgents();
 
