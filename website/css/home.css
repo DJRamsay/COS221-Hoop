@@ -61,7 +61,7 @@ h2 {
 
 
 /* movies container styling */
-.movies_container{
+.movies_container, .movies2_container, .recommended_titles{
     max-width: 960px;
     margin-left: auto;
     margin-right: auto;
