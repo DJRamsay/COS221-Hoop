@@ -513,6 +513,59 @@
                 }
                 $stmt->close();
             }
+
+            //function for the administrator to add a new Title to the database
+            public function AddTitle($data)
+            {
+                if(isset($data['title_name']) && isset($data['title_type']) && isset($data['release_date']) && isset($data['genre']) && isset($data['image'])
+                    && isset($data['description']) && isset($data['pg_rating']) && isset($data['rating']) && isset($data['language']) && isset($data['studio']) && isset($data['fss_address']))
+                {
+                    $title_name = $data['title_name'];
+                    $title_type = $data['title_type'];
+                    $release_date = $data['release_date'];
+                    $genre = $data['genre'];
+                    $image = $data['image'];
+                    $description = $data['description'];
+                    $pg_rating = $data['pg_rating'];
+                    $rating = $data['rating'];
+                    $language = $data['language'];
+                    $studio = $data['studio'];
+                    $fss_address = $data['fss_address'];
+
+                    // Validate release_date
+                    if (!DateTime::createFromFormat('Y-m-d', $release_date)) {
+                        http_response_code(400);
+                        echo json_encode(array("message" => "Invalid date format. Please use YYYY-MM-DD."));
+                        return;
+                    }
+
+                    // Insert data into the database
+                    $conn = $this->getConnection();
+                    $sql = "INSERT INTO title (title_name, title_type, release_date, genre, `image`, `description`, pg_rating, rating, `language`, studio, fss_address) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    $stmt = $conn->prepare($sql);
+
+                    $stmt->bind_param("ssssbssssds", $title_name, $title_type, $release_date, $genre, $image, $description, $pg_rating, $rating, $language, $studio, $fss_address);
+
+                    if (!$stmt->execute()) {
+                        error_log("Error executing query: " . $stmt->error);
+                        http_response_code(500);
+                        echo json_encode(array("message" => "Unable to add Title to database."));
+                        $stmt->close();
+                        return;
+                    }                
+
+                    http_response_code(201);
+                    echo json_encode(array("message" => "Title successfully added to database"));
+
+                    // Close statement
+                    $stmt->close();
+                }
+                else
+                {
+                    echo $this->errorResponse("Missing Title Details!");
+                }
+            }
+
         
     }
 
@@ -550,6 +603,9 @@
     }
     else if ($type == "GetSeries") {
         echo $instance->GetSeries();
+    }
+    else if ($type == "AddTitle") {
+        echo $instance->AddTitle($data);
     }
     //$instance->getAgents();
 
