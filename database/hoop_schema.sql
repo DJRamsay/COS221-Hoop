@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS profile (
     account_id INT NOT NULL,
     profile_age INT NOT NULL,
     profile_icon BLOB,
+    apikey INT NOT NULL,
 
     FOREIGN KEY (account_id) REFERENCES account(account_id)
     ON DELETE CASCADE
@@ -129,6 +130,12 @@ CREATE TABLE IF NOT EXISTS preferences (
     ON DELETE CASCADE,
     FOREIGN KEY (profile_id) REFERENCES profile(profile_id) 
     ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS studio (
+    studio_id INT AUTO_INCREMENT PRIMARY KEY,
+    studio_name VARCHAR(50) NOT NULL,
+    country VARCHAR(50)
 );
 
 --Trigger to ensure max_profiles is not violated
