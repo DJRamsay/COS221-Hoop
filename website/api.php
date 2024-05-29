@@ -612,7 +612,7 @@
             }
 
     }
-    public function updateTitle($data) {
+    /*public function updateTitle($data) {
         if (isset($data['title_name']) || isset($data['title_type']) || isset($data['release_date']) || isset($data['description'])) {
             $conn = $this->getConnection();
             
@@ -655,7 +655,8 @@
         }
     }
     }    
-
+*/
+    }
 
 
     $json = file_get_contents('php://input');
