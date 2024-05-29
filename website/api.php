@@ -8,6 +8,8 @@
         private static $instance;
         private $connection;
 
+        public $current_account_id = 1; // i added this - unathi - defaults to John Doe's id
+
         public static function instance() {
             static $instance = null; 
             if ($instance === null) {
@@ -32,8 +34,45 @@
             return $this->connection;
         }
 
-        public function registerProfile($data) {
-            $name = $data['name'];
+
+        //not tested yet - will check later
+        public function registerProfile($profile_details) {
+            if(isset($profile_details['profile_age']) && isset($profile_details['profile_icon']))
+            {
+                
+                $age = $profile_details['profile_age'];
+                $image = $profile_details['profile_icon'];
+                
+              
+                // Insert data into the database
+                $accID = $this->current_account_id;
+                $apiKey = $this->generateApiKey();
+                $sql = "INSERT INTO `profile` (profile_age, profile_icon, account_id, apikey) VALUES (?, ?, ?, ?)";
+                $conn = $this->getConnection();
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("ibis", $age, $null, $accID, $apiKey);
+                if (!$stmt->send_long_data(1, $image)) {
+                    http_response_code(500);
+                    echo json_encode(array("message" => "Failed to send BLOB data."));
+                    return;
+                }
+                
+                if ($stmt->execute()) {
+                    http_response_code(201);
+                    echo json_encode(array("message" => "Profile created successfully."));
+                } else {
+                    http_response_code(500);
+                    echo json_encode(array("message" => "Unable to create a profile"));
+                }
+    
+                // Close statement
+                $stmt->close();
+    
+            }
+            else
+            {
+                return $this->errorResponse("Missing Profile Details!");
+            }
 
         }
 
@@ -93,7 +132,12 @@
                     "timestamp" => time(), 
                     "data" => ["email" => $email]
                 ];
-                
+
+                //added this - unathi
+                $this->current_account_id = $this->fetchAccountID($email);
+                //added this - unathi
+
+
                 echo json_encode($response);
             } else {
                 $response = [
@@ -222,38 +266,93 @@
             $conn->close(); ///////
         }
 
+
+        //error response function
+
+
+    //UNATHI API FUNCTIONS
     
+    //function to generate an api key
+    private function generateApiKey() {
+        return bin2hex(random_bytes(10));
+    }
 
-        public function login($data) {
-            session_start();
-            $email = isset($data['email']) ? $data['email'] : null;
-            $password = isset($data['password']) ? $data['password'] : null;
+       //function to check if the user already exists in the database (by email)
+       private function duplicateUserExists($email) {
+        $sql = "SELECT * FROM account WHERE email = ?";
+        $stmt = $this->getConnection()->prepare($sql);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->num_rows > 0;
+    }
 
-            if ($email === null || $password === null){
-                $response = ['status' => 'fail', 'message' => 'Missing required parameters'];
-                echo json_encode($response);
-                return;
-            }
 
-            $stored = $this->fetchStored($email);
+    //success response function
+    private function successResponse($apiKey) {
+       
+        return json_encode([
+            "status" => "success",
+            "timestamp" => time(),
+            "data" => [
+                "apikey" => $apiKey
+            ]
+        ]);
+    }
 
-            if (!$storedPassword) {
-                return ['status' => 'fail', 'message' => 'Invalid email'];
-            }
+    //error response function
+    public function errorResponse($message) {
+        return json_encode([
+            "status" => "error",
+            "timestamp" => time(),
+            "data" => $message
+        ]);
+    } 
+    
+        //login
+    public function login($data) {
 
-            if (password_verify($password, $stored)) {
-                $key = $this->fetchAPIKey($email);
-                $response = [
-                    "status" => "success",
-                    "timestamp" => time(), 
-                    "data" => ["apikey" => $api_key]
-                ];
-                
-                echo json_encode($response);
-            } else {
-                return ['status' => 'fail', 'message' => 'Invalid password'];
-            }
+        // Check if the request method is POST
+       // if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            // Get the raw POST data
+           // $data = json_decode(file_get_contents("php://input"),true);
+            
+            // Check if all required fields are provided in the POST request
+            if(isset($data['email']) && isset($data['password'])) {
+            
+                //get input data
+                $email = $data['email'];
+                $password = $data['password'];
+
+                // Check if user exists
+        if (!$this->duplicateUserExists($email)) {
+            return $this->errorResponse("User does not exist in database");
         }
+    
+        // Fetch user data from the database
+        $sql = "SELECT * FROM account WHERE email='$email'";
+        $conn = $this->getConnection();
+        $result = $conn->query($sql);
+    
+        if ($result->num_rows > 0) {
+            $user = $result->fetch_assoc();
+            $DBpassword = $user['password'];
+    
+            // Verify password
+            if ($DBpassword === $password) {
+                echo json_encode(array("message" => "Logged in successfully."));
+                //return $this->successResponse("Logged in Successfully");
+            } else {
+                return $this->errorResponse("Incorrect password");
+            }
+        } else {
+            return $this->errorResponse("User not found");
+        }
+            }
+        //}     
+            
+    }
 
         public function fetchAPIKey($email) {
             $conn = $this->getConnection();
@@ -272,6 +371,27 @@
             $row = $result->fetch_assoc();
             return $row['apikey'];
         }
+
+
+        ///helper function to get the current user's account ID
+        public function fetchAccountID($email) {
+            $conn = $this->getConnection();
+            $sql = "SELECT account_id FROM account WHERE email = ?";
+        
+            // Prepare the SQL statement
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("s", $email);              
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            if ($result->num_rows == 0) {
+                return ['status' => 'fail', 'message' => 'Invalid Email'];
+            }
+
+            $row = $result->fetch_assoc();
+            return $row['account_id']; //getting the account_id of the user currently
+        }
+
 
         public function fetchStored($email) {
             $conn = $this->getConnection();
@@ -335,8 +455,67 @@
         
             return $isValid;
         }
+
+            //function to get all the movies
+            public function GetMovies()
+            {
+                $conn = $this->getConnection();
+                $sql = "SELECT * FROM title WHERE title_type = ?";
+                $stmt = $conn->prepare($sql);
+                $type = "MOVIE";
+                $stmt->bind_param("s", $type);
+                
+                if ($stmt->execute()) {
+                    $result = $stmt->get_result();
+                    if ($result->num_rows > 0) {
+                        $movies = [];
+                        while ($row = $result->fetch_assoc()) {
+                            $movies[] = $row;
+                        }
+                        http_response_code(200);
+                        echo json_encode(["status" => "success", "data" => $movies]);
+                    } else {
+                        http_response_code(404);
+                        echo json_encode(["status" => "fail", "message" => "No movies found"]);
+                    }
+                } else {
+                    http_response_code(500);
+                    echo json_encode(["status" => "error", "message" => $stmt->error]);
+                }
+                $stmt->close();
+            }
+            
+            //function to get all the series
+            public function GetSeries()
+            {
+                $conn = $this->getConnection();
+                $sql = "SELECT * FROM title WHERE title_type = ?";
+                $stmt = $conn->prepare($sql);
+                $type = "SHOW";
+                $stmt->bind_param("s", $type);
+                
+                if ($stmt->execute()) {
+                    $result = $stmt->get_result();
+                    if ($result->num_rows > 0) {
+                        $series = [];
+                        while ($row = $result->fetch_assoc()) {
+                            $series[] = $row;
+                        }
+                        http_response_code(200);
+                        echo json_encode(["status" => "success", "data" => $series]);
+                    } else {
+                        http_response_code(404);
+                        echo json_encode(["status" => "fail", "message" => "No series found"]);
+                    }
+                } else {
+                    http_response_code(500);
+                    echo json_encode(["status" => "error", "message" => $stmt->error]);
+                }
+                $stmt->close();
+            }
         
     }
+
 
     $json = file_get_contents('php://input');
     if ($json === false || $json === null) {
@@ -359,12 +538,18 @@
     $type = $data['type'];
     if ($type == "Register Account") {
         $instance->registerAccount($data);        
-    } else if ($type = "Register Profile"){
-        $instance->registerProfile($data);
+    } else if ($type == "Register Profile"){
+       $instance->registerProfile($data);
     } else if ($type == "GetAllTitles") {
         $instance->getAllTitles($data);        
     } else if ($type == "Login") {
-        $instance->login($data);
+       echo $instance->login($data);
+    }
+    else if ($type == "GetMovies") {
+        echo $instance->GetMovies();
+    }
+    else if ($type == "GetSeries") {
+        echo $instance->GetSeries();
     }
     //$instance->getAgents();
 
