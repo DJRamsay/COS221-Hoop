@@ -1,11 +1,49 @@
-// This is a file that will handle the API requests for series
-// This includes processes like fetching image URLs, and series details
-
-// Going to be using the TVmaze API for some of the data population
-
 document.addEventListener("DOMContentLoaded", function() {
     loadSeries();
+    document.getElementById("searchBTN").addEventListener("click", function(event) {
+        event.preventDefault(); 
+        fetchSearchData();
+    });
 });
+
+function fetchSearchData() {
+    const seriesContainer = document.querySelector(".movies_container");
+    const loadingScreen = document.getElementById("loadingPage");
+    const searchInput = document.getElementById("searchbar").value.toLowerCase();
+
+    // Clear previous results
+    seriesContainer.innerHTML = '';
+    loadingScreen.style.display = "block";
+
+    searchSeries(searchInput, function(seriesList) {
+        seriesList.forEach(series => {
+            createSeriesElement(series, seriesContainer);
+        });
+        loadingScreen.style.display = "none";
+    });
+}
+
+function searchSeries(query, callback) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", `https://api.tvmaze.com/search/shows?q=${query}`, true);
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                const seriesData = JSON.parse(xhr.responseText);
+                // Extract the show data from the search results
+                const seriesList = seriesData.map(item => item.show);
+                callback(seriesList);
+            } else {
+                console.error(`Error fetching series with query "${query}"`);
+                callback([]);
+            }
+        }
+    };
+
+    xhr.send();
+}
+
 
 async function loadSeries() {
     const seriessContainer = document.querySelector(".movies_container");
@@ -13,9 +51,8 @@ async function loadSeries() {
 
     loadingScreen.style.display = "block";
 
-    for (let i = 1; i <= 33; i++) {
+    for (let i = 33; i <= 63; i++) {
         try {
-            // Fetch series data using XMLHttpRequest
             const series = await fetchSeriesData(i);
             createSeriesElement(series, seriessContainer);
         } catch (error) {
@@ -26,7 +63,6 @@ async function loadSeries() {
     loadingScreen.style.display = "none";
 }
 
-// Function to fetch series data using XMLHttpRequest
 function fetchSeriesData(seriesId) {
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
@@ -36,12 +72,7 @@ function fetchSeriesData(seriesId) {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
                     const seriesData = JSON.parse(xhr.responseText);
-                    const imdbID = seriesData.externals.imdb;
-                    // Fetch image URL from the TVmaze API using the IMDb ID
-                    fetchImageUrl(imdbID, function(imageUrls) {
-                        seriesData.imageUrls = imageUrls;
-                        resolve(seriesData);
-                    });
+                    resolve(seriesData);
                 } else {
                     reject(new Error(`Error fetching series with ID ${seriesId}`));
                 }
@@ -52,38 +83,6 @@ function fetchSeriesData(seriesId) {
     });
 }
 
-// Function to fetch image URL from the TVmaze API based on the IMDb ID
-function fetchImageUrl(imdbID, callback) {
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "https://api.tvmaze.com/lookup/shows?imdb=" + imdbID, true);
-
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
-            if (xhr.status == 200) {
-                // Parse the response and extract image URLs
-                var response = JSON.parse(xhr.responseText);
-                var imageUrls = [];
-                if (response.length > 0) {
-                    for (var i = 0; i < response.length; i++) {
-                        var imageURL = response[i].image ? response[i].image.medium : null;
-                        imageUrls.push(imageURL);
-                    }
-                }
-                // Call the callback function with the array of image URLs
-                callback(imageUrls);
-            } else if (xhr.status == 404) {
-                console.log("Image not found");
-                // Call the callback function with an empty array if image is not found
-                callback([]);
-            }
-        }
-    };
-
-    xhr.send();
-}
-
-
-// Function to create series element
 function createSeriesElement(series, container) {
     const seriesElement = document.createElement('div');
     seriesElement.classList.add('box');
