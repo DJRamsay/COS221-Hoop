@@ -29,7 +29,50 @@
     </header>
 
     <main>
-       
+       <div class="search">
+            <input type="text" placeholder="Search..." id="searchbar">
+            <button type="button">Search</button>
+        </div>
+        <br>
+        <div class="filter">
+            <select id="genre">
+                <option value="" disabled selected>Genre</option>
+                <option value="action">Action</option>
+                <option value="comedy">Comedy</option>
+                <option value="crime">Crime</option>
+                <option value="documentation">Documentation</option>
+                <option value="drama">Drama</option>
+                <option value="family">Family</option>
+                <option value="horror">Horro</option>
+                <option value="sci-fi">Sci-Fi</option>
+                <option value="sport">Sport</option>
+                <option value="romance">Romance</option>
+                <option value="thriller">Thriller</option>
+            </select>
+            <select id="pg-rating">
+                <option value="" disabled selected>PG-Rating</option>
+                <option value="pg">PG</option>
+                <option value="r">R</option>
+                <option value="tv-14">TV-14</option>
+                <option value="tv-ma">TV-MA</option>
+                <option value="16+">16+</option>
+                <option value="18+">18+</option>
+            </select>
+            <select id="rating">
+                <option value="" disabled selected>Rating</option>
+                <option value="1+">1+</option>
+                <option value="2+">2+</option>
+                <option value="3+">3+</option>
+                <option value="4+">4+</option>
+                <option value="5+">5+</option>
+                <option value="6+">6+</option>
+                <option value="7+">7+</option>
+                <option value="8+">8+</option>
+                <option value="9+">9+</option>
+                <option value="10">10+</option>
+            </select>
+            <button type="button" >Filter</button>
+        </div>
         <!--This is where the titles will be viewed-->
         <section class="movies" id="movies">
             <h2 class="heading">Featured Movies</h2>
