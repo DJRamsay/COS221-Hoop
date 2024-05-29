@@ -17,7 +17,7 @@ document.getElementById("log").addEventListener("submit", function(event) {
 
     // Send AJAX request to our API
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "api.php");
+    xhr.open("POST", "https://wheatley.cs.up.ac.za/u22599012/api.php");
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onload = function() {
         if (xhr.status === 200) {
