@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hoop: The Best In One Place</title>
+    <link rel="icon" href="img/logo.jpg">
+    <link rel="stylesheet" href="css/mUsers.css">
+</head>
+<body>
+    <header>
+            <div class="wholelogo">
+                <img src="img/logo.jpg" id="logo" width="50px">
+                <span><h1 class="heading">HOOP</h1></span>
+            </div>
+            <button class="btn">Logout</button>
+    </header>
+
+    <main>
+        <h1 class="heading">Manage Users</h1>
+        <br>
+        <br>
+
+        <div class="show">
+            <h2>Update User</h2>
+            <form action="">
+                <br>
+                <label for="fname" >First Name:</label><br>
+                <br>
+                <input type="text" name="fname" class="box"><br>
+                <br>
+                <label for="lname" >Last Name:</label><br>
+                <br>
+                <input type="text" name="lname" class="box"><br>
+                <br>
+                <label for="phone" >Phone:</label><br>
+                <br>
+                <input type="text" name="phone" class="box"><br>
+                <br>
+                <label for="email" >Email:</label><br>
+                <br>
+                <input type="email" name="email" class="box"><br>
+                <br>
+                <label for="password">Password:</label><br>
+                <br>
+                <input type="password" name="password" class="box"><br>
+                <br>
+                <label for="notif_pref">Notification:</label><br>
+                <br>
+                <select id="notif" class="notif">
+                    <option value="" disabled selected></option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+                <br>
+                <br>
+                <label for="subType">Type of Subscription</label><br>
+                <br>
+                <select id="subType" class="subType">
+                    <option value="" disabled selected></option>
+                    <option value="basic">Basic - R250</option>
+                    <option value="standard">Standard - R350</option>
+                    <option value="premium">Premium - R450</option>
+                </select>
+                <br>
+                <br>
+                <input type="submit" name="update" value="Update user" class="btn">
+                <br>
+                <br>
+                <input type="submit" name="delete" value="Delete user" class="btn">
+            </form>
+        </div>
+    </main>
+
+    
+</body>
+</html>
