@@ -513,6 +513,37 @@
                 }
                 $stmt->close();
             }
+        
+        public function GetProfiles($accountId)
+            {
+                $conn = $this->getConnection();
+                $sql = "SELECT * FROM profile WHERE account_id = ?";
+                $stmt = $conn->prepare($sql); 
+                $stmt->bind_param("i", $accountId);
+            
+                if ($stmt->execute()) {
+
+                    $result = $stmt->get_result();
+            
+                    if ($result->num_rows > 0) {
+                        $profiles = [];
+                        while ($row = $result->fetch_assoc()) {
+                            $profiles[] = $row;
+                        }
+                        http_response_code(200);
+                        echo json_encode(["status" => "success", "data" => $profiles]);
+                    } else {
+                        // No profiles found, return 404 response
+                        http_response_code(404);
+                        echo json_encode(["status" => "fail", "message" => "No profiles found"]);
+                    }
+                } else {
+                    // Error executing the statement, return 500 response
+                    http_response_code(500);
+                    echo json_encode(["status" => "error", "message" => $stmt->error]);
+                }
+                $stmt->close();
+            }
 
             //function for the administrator to add a new Title to the database
             public function AddTitle($data)
