@@ -79,7 +79,7 @@ function populateSeries(listData){
     listElement.innerHTML = `
     <div class="card-container">
         <div class="card">
-        <a href ="details.html?param1="+${listData.title_id}+"&param2=series"><img src="${listData.image}"></a>
+        <a href ="details.html?param1=1&param2=series"><img src="${listData.image}"></a>
             <h3>${listData.title_name}</h3>
             <h6>${listData.genre}</h6>
             <h6>${listData.release_date}</h6>

@@ -247,6 +247,7 @@ async function loadSeries2(titleID) {
                 let data = response.data;
                 for(let i = 1; i<data.length;i++){
                     if(i == titleID){
+                        console.log(i);
                         let index = data[i];
                         populateSeries(index);
                     }
