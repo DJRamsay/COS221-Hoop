@@ -338,6 +338,10 @@
         if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
             $DBpassword = $user['password'];
+            $DBaccountID = $user['account_id'];
+
+            //setting global account_id variable
+            $this->current_account_id = $DBaccountID;
     
             // Verify password
             if ($DBpassword === $password) {
@@ -508,37 +512,6 @@
                         echo json_encode(["status" => "fail", "message" => "No series found"]);
                     }
                 } else {
-                    http_response_code(500);
-                    echo json_encode(["status" => "error", "message" => $stmt->error]);
-                }
-                $stmt->close();
-            }
-        
-        public function GetProfiles($accountId)
-            {
-                $conn = $this->getConnection();
-                $sql = "SELECT * FROM profile WHERE account_id = ?";
-                $stmt = $conn->prepare($sql); 
-                $stmt->bind_param("i", $accountId);
-            
-                if ($stmt->execute()) {
-
-                    $result = $stmt->get_result();
-            
-                    if ($result->num_rows > 0) {
-                        $profiles = [];
-                        while ($row = $result->fetch_assoc()) {
-                            $profiles[] = $row;
-                        }
-                        http_response_code(200);
-                        echo json_encode(["status" => "success", "data" => $profiles]);
-                    } else {
-                        // No profiles found, return 404 response
-                        http_response_code(404);
-                        echo json_encode(["status" => "fail", "message" => "No profiles found"]);
-                    }
-                } else {
-                    // Error executing the statement, return 500 response
                     http_response_code(500);
                     echo json_encode(["status" => "error", "message" => $stmt->error]);
                 }
@@ -765,10 +738,152 @@
             // Close statement
             $stmt->close();
         }
+
+        //function to add a Title Credit 
+        public function AddTitleCredit($data) {
+            $conn = $this->getConnection();
+            
+            // Set default title_id if not specified
+            $title_id = isset($data['title_id']) ? $data['title_id'] : 2;
+            $credit_id = $data['credit_id'];
+            $role = $data['role'];
+            $credit_type = $data['credit_type'];
+        
+            // Prepare SQL statement
+            $sql = "INSERT INTO title_credits (title_id, credit_id, role, credit_type) VALUES (?, ?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+            if (!$stmt) {
+                http_response_code(500);
+                echo json_encode(array("message" => "Unable to prepare statement."));
+                return;
+            }
+        
+            $stmt->bind_param("iiss", $title_id, $credit_id, $role, $credit_type);
+        
+            // Execute the statement and check for errors
+            if (!$stmt->execute()) {
+                error_log("Error executing query: " . $stmt->error);
+                http_response_code(500);
+                echo json_encode(array("message" => "Unable to add Title Credit to database."));
+                $stmt->close();
+                return;
+            }
+        
+            http_response_code(201);
+            echo json_encode(array("message" => "Title Credit successfully added to database"));
+            
+            // Close statement
+            $stmt->close();
+        }
+        
+        //function to Update a title Credit
+        public function UpdateTitleCredits($data) {
+            if (!isset($data['title_credit_id'])) {
+                http_response_code(400);
+                echo json_encode(array("message" => "Title Credit ID is required for update."));
+                return;
+            }
+        
+            $title_credit_id = $data['title_credit_id'];
+            $conn = $this->getConnection();
+        
+            $fields = [];
+            $params = [];
+            $types = '';
+        
+            if (isset($data['title_id'])) {
+                $fields[] = "title_id = ?";
+                $params[] = $data['title_id'];
+                $types .= 'i';
+            }
+            if (isset($data['credit_id'])) {
+                $fields[] = "credit_id = ?";
+                $params[] = $data['credit_id'];
+                $types .= 'i';
+            }
+            if (isset($data['role'])) {
+                $fields[] = "role = ?";
+                $params[] = $data['role'];
+                $types .= 's';
+            }
+            if (isset($data['credit_type'])) {
+                $fields[] = "credit_type = ?";
+                $params[] = $data['credit_type'];
+                $types .= 's';
+            }
+        
+            if (empty($fields)) {
+                http_response_code(400);
+                echo json_encode(array("message" => "No valid fields to update."));
+                return;
+            }
+        
+            $sql = "UPDATE title_credits SET " . implode(', ', $fields) . " WHERE title_credit_id = ?";
+            $params[] = $title_credit_id;
+            $types .= 'i';
+        
+            $stmt = $conn->prepare($sql);
+            if (!$stmt) {
+                http_response_code(500);
+                echo json_encode(array("message" => "Unable to prepare statement."));
+                return;
+            }
+        
+            $stmt->bind_param($types, ...$params);
+        
+            if (!$stmt->execute()) {
+                error_log("Error executing query: " . $stmt->error);
+                http_response_code(500);
+                echo json_encode(array("message" => "Unable to update Title Credit in database."));
+                $stmt->close();
+                return;
+            }
+        
+            if ($stmt->affected_rows > 0) {
+                http_response_code(200);
+                echo json_encode(array("message" => "Title Credit successfully updated"));
+            } else {
+                http_response_code(404);
+                echo json_encode(array("message" => "Title Credit not found or no change detected."));
+            }
+        
+            // Close statement
+            $stmt->close();
+        }
+
+        public function GetProfiles($accountId)
+        {
+            $conn = $this->getConnection();
+            $sql = "SELECT * FROM profile WHERE account_id = ?";
+            $stmt = $conn->prepare($sql); 
+            $stmt->bind_param("i", $accountId);
+
+            if ($stmt->execute()) {
+
+                $result = $stmt->get_result();
+
+                if ($result->num_rows > 0) {
+                    $profiles = [];
+                    while ($row = $result->fetch_assoc()) {
+                        $profiles[] = $row;
+                    }
+                    http_response_code(200);
+                    echo json_encode(["status" => "success", "data" => $profiles]);
+                } else {
+                    // No profiles found, return 404 response
+                    http_response_code(404);
+                    echo json_encode(["status" => "fail", "message" => "No profiles found"]);
+                }
+            } else {
+                // Error executing the statement, return 500 response
+                http_response_code(500);
+                echo json_encode(["status" => "error", "message" => $stmt->error]);
+            }
+            $stmt->close();
+        }
         
 
     }
-
 
     $json = file_get_contents('php://input');
     if ($json === false || $json === null) {
@@ -814,6 +929,15 @@
     {
         echo $instance->DeleteUserAndProfiles($data);
     }
+    else if ($type == "AddTitleCredit")
+    {
+        echo $instance->AddTitleCredit($data);
+    }
+    else if ($type == "UpdateTitleCredit")
+    {
+        echo $instance->UpdateTitleCredits($data);
+    }
+    
     //$instance->getAgents();
 
 ?>
