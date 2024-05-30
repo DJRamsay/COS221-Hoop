@@ -9,50 +9,46 @@
 </head>
 <body>
     <header>
-            <div class="wholelogo">
-                <img src="img/logo.jpg" id="logo" width="50px">
-                <span><h1 class="heading">HOOP</h1></span>
-            </div>
-            <button class="btn">Logout</button>
+        <div class="wholelogo">
+            <img src="img/logo.jpg" id="logo" width="50px">
+            <span><h1 class="heading">HOOP</h1></span>
+        </div>
+        <button class="btn">Logout</button>
     </header>
 
     <main>
         <h1 class="heading">Manage Credits</h1>
-        <br>
-        <br>
-        
+        <br><br>
 
         <div class="show">
             <h2>Update Credits</h2>
-            <form action="">
+            <form id="creditsForm">
                 <br>
-                <label for="cname" >Credit Name:</label><br>
-                <br>
-                <input type="text" name="cname" class="box"><br>
-                <br>
-                <input type="submit" name="add" value="Add Credit" class="btn"><br>
-                <br>
-                <label for="crole" >Credit Role:</label><br>
-                <br>
-                <input type="text" name="crole" class="box"><br>
-                <br>
-                <label for="ttype" >Credit Type:</label><br>
-                <br>
+                <label for="creditName">Credit Name:</label><br><br>
+                <input type="text" name="creditName" class="box" id="creditName"><br><br>
+                <input type="submit" name="add" value="Add Credit" class="btn" id="addCreditBTN"><br><br>
+
+                <label for="titleId">Title ID:</label><br><br>
+                <input type="text" name="titleId" class="box" id="titleId"><br><br>
+
+                <label for="creditId">Credit ID:</label><br><br>
+                <input type="text" name="creditId" class="box" id="creditId"><br><br>
+
+                <label for="role">Credit Role:</label><br><br>
+                <input type="text" name="role" class="box" id="role"><br><br>
+
+                <label for="ttype">Credit Type:</label><br><br>
                 <select id="ttype" class="ddown">
                     <option value="" disabled selected></option>
                     <option value="actor">Actor</option>
                     <option value="director">Director</option>
-                </select>
-                
-                <br>
-                <br>
-                <input type="submit" name="addtc" value="Add Title Credit" class="btn">
-                <input type="submit" name="updatetc" value="Update Title Credit" class="btn">
-            </form>
-            <script src = "js/manageCredits.js"></script>
-        </div>
-    </main>
+                </select><br><br>
 
-    
+                <input type="submit" name="addtc" value="Add Title Credit" class="btn" id="tcAdd">
+                <input type="submit" name="updatetc" value="Update Title Credit" class="btn" id="tcUpdate">
+            </form>
+        </div>
+        <script src="js/manageCredits.js"></script>
+    </main>
 </body>
 </html>

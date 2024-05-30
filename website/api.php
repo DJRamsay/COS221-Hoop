@@ -484,6 +484,50 @@
                 $stmt->close();
             }
 
+            public function removeTitle($data){
+                // gonna identify title to delete based on the name,type and release date
+                if(isset($data['title_name']) && isset($data['title_type']) && isset($data['release_date'])){
+                    $title_name = $data['title_name'];
+                    $title_type = $data['title_type'];
+                    $release_date = $data['release_date'];
+        
+                    // Validate release_date
+                    if (!DateTime::createFromFormat('Y-m-d', $release_date)) {
+                        http_response_code(400);
+                        echo json_encode(array("message" => "Invalid date format. Please use YYYY-MM-DD."));
+                        return;
+                    }
+                    $conn = $this->getConnection();
+                    $sql = "DELETE FROM title WHERE title_name = ? AND title_type = ? AND release_date = ?";
+                    $stmt = $conn->prepare($sql);
+        
+                    $stmt->bind_param("sss", $title_name, $title_type, $release_date);
+                    if (!$stmt->execute()) {
+                        error_log("Error executing query: " . $stmt->error);
+                        http_response_code(500);
+                        echo json_encode(array("message" => "Unable to delete Title from database."));
+                        $stmt->close();
+                        return;
+                    }                
+        
+                    if ($stmt->affected_rows > 0) {
+                        http_response_code(200);
+                        echo json_encode(array("message" => "Title successfully deleted from database"));
+                    } else {
+                        http_response_code(404);
+                        echo json_encode(array("message" => "Title not found."));
+                    }
+            
+                    // Close statement
+                    $stmt->close();
+        
+                }else
+                {
+                    http_response_code(400);
+                    echo $this->errorResponse("Missing Title Details For delete");
+                    }
+        
+            }
             //function for the administrator to add a new Title to the database
             public function AddTitle($data)
             {
@@ -705,6 +749,42 @@
             $stmt->close();
         }
 
+        public function addCredit($data) {
+            if (isset($data['name'])) {
+                $name = $data['name'];
+        
+                // Insert data into the database
+                $conn = $this->getConnection();
+                $sql = "INSERT INTO credits (name) VALUES (?)";
+                $stmt = $conn->prepare($sql);
+        
+                if (!$stmt) {
+                    http_response_code(500);
+                    echo json_encode(array("message" => "Unable to prepare statement."));
+                    return;
+                }
+        
+                $stmt->bind_param("s", $name);
+        
+                if (!$stmt->execute()) {
+                    error_log("Error executing query: " . $stmt->error);
+                    http_response_code(500);
+                    echo json_encode(array("message" => "Unable to add credit to database."));
+                    $stmt->close();
+                    return;
+                }
+        
+                http_response_code(201);
+                echo json_encode(array("message" => "Credit successfully added to database"));
+        
+                // Close statement
+                $stmt->close();
+            } else {
+                http_response_code(400);
+                echo json_encode(array("message" => "Missing Credit Details!"));
+            }
+        }
+        
         //function to add a Title Credit 
         public function AddTitleCredit($data) {
             $conn = $this->getConnection();
@@ -908,6 +988,10 @@
     else if($type == "GetProfiles")
     {
         $instance->GetProfiles();
+    }else if ($type == "removeTitle") {
+        echo $instance->removeTitle($data);
+    }else if($type == "addCredit"){
+        echo $instance->addCredit($data);
     }
     
     //$instance->getAgents();
