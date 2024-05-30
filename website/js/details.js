@@ -189,18 +189,14 @@ document.addEventListener("DOMContentLoaded", function() {
     var type = param2Value;
 
     if(type == "series"){
-        loadSeries(titleID);
-    } else if(type=="movies"){
         loadSeries2(titleID);
+    } else if(type=="movie"){
+        loadSeries(titleID);
     }
     
 });
 
 async function loadSeries(titleID) {
-    const loadingScreen = document.getElementById("loadingPage");
-
-    loadingScreen.style.display = "block";
-
     let xmlObject = new XMLHttpRequest();
     let url = 'https://wheatley.cs.up.ac.za/u22599012/COS221/api.php';
     var username = "u22599012";
@@ -214,9 +210,9 @@ async function loadSeries(titleID) {
             let response = JSON.parse(xmlObject.responseText);
             if(response.status === "success"){
                 let data = response.data;
-                for(let i = 0; i<data.length;i++){
-                    if(i == titleID){
-                        let index = data[i];
+                for(let i = 1; i<data.length;i++){
+                    if(i == titleID){ 
+                        let index = data[i-2];
                         populateMovies(index);
                     }
                 }
@@ -232,13 +228,9 @@ async function loadSeries(titleID) {
 
     xmlObject.send(JSON.stringify(reqData));
 
-    loadingScreen.style.display = "none";
 }
 
 async function loadSeries2(titleID) {
-    const loadingScreen = document.getElementById("loadingPage");
-
-    loadingScreen.style.display = "block";
 
    let xmlObject = new XMLHttpRequest();
     let url = 'https://wheatley.cs.up.ac.za/u22599012/COS221/api.php';
@@ -253,7 +245,7 @@ async function loadSeries2(titleID) {
             let response = JSON.parse(xmlObject.responseText);
             if(response.status === "success"){
                 let data = response.data;
-                for(let i = 0; i<8;i++){
+                for(let i = 1; i<data.length;i++){
                     if(i == titleID){
                         let index = data[i];
                         populateSeries(index);
@@ -271,22 +263,24 @@ async function loadSeries2(titleID) {
 
     xmlObject.send(JSON.stringify(reqData));
 
-    loadingScreen.style.display = "none";
 }
 
 function populateMovies(listData){
-    let listingContainer = document.querySelector('.movies_container');
+    
+    let listingContainer = document.querySelector('.details_container');
     let listElement = document.createElement('div');
     listElement.classList.add('movie.type');
+    
     listElement.innerHTML = `
         <div class="cover">
-             <img src="img/logo.jpg>
+        <img src="${listData.image}">
          </div>
          <div class="info">
              <h1 class="title">${listData.title_name}</h1>
              <p class="description">${listData.description}</p>
-             <p class="genre"><strong>Genre:</strong> ${listData.description}</p>
+             <p class="genre"><strong>Genre:</strong> ${listData.genre}</p>
              <p class="rating"><strong>Rating:</strong> ${listData.rating}</p>
+             <p class="rating"><strong>PG-Rating:</strong> ${listData.pg_rating}</p>
              <!-- Add other details here -->
          </div>
     `;
@@ -295,18 +289,19 @@ function populateMovies(listData){
 }
 
 function populateSeries(listData){
-    let listingContainer = document.querySelector('.series_container');
+    let listingContainer = document.querySelector('.details_container');
     let listElement = document.createElement('div');
     listElement.classList.add('series.type');
     listElement.innerHTML = `
     <div class="cover">
-             <img src="img/logo.jpg>
+    <img src="${listData.image}">
          </div>
          <div class="info">
              <h1 class="title">${listData.title_name}</h1>
              <p class="description">${listData.description}</p>
-             <p class="genre"><strong>Genre:</strong> ${listData.description}</p>
+             <p class="genre"><strong>Genre:</strong> ${listData.genre}</p>
              <p class="rating"><strong>Rating:</strong> ${listData.rating}</p>
+             <p class="rating"><strong>PG-Rating:</strong> ${listData.pg_rating}</p>
              <!-- Add other details here -->
          </div>
     `;
