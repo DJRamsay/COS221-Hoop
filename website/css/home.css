@@ -1,0 +1,228 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #a9b6b4;
+}
+/* easier way to keep track of colors being used*/
+:root{
+    --main-color : rgb(71, 128, 138);
+    --text-color : black;
+    --bg-color: #fff;
+}
+
+header {
+    background-color: #304242;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 10px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.active{
+    font-size: larger;
+    font-style: italic;
+}
+
+main {
+    padding: 20px;
+}
+
+h2 {
+    color: #333;
+}
+
+
+
+/* this is used for the title heading*/
+.heading{
+    max-width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.3rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--main-color);
+}
+
+
+/* movies container styling */
+.movies_container, .movies2_container, .recommended_titles{
+    max-width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, auto));
+    gap: 1rem;
+    margin-top: 2rem;
+
+}
+/* creates a box for the title information*/
+.box .box_image{
+    width: 100%;
+    height: 270px;
+}
+
+/* resizes the images in the box to be same size*/
+.box .box_image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* This is responsible for the linear hover effect on the image*/
+.box .box_image img:hover{
+    transform: translateY(-9px);
+    transition: 0.2s all linear;
+}
+/* for the all h3 tags used in the box, this includes the title name*/
+.box h3{
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* used for the genre and length of movie
+makes it look smaller than the title name*/
+.box span{
+    font-size: 13px;
+
+}
+
+/* series box styling */
+.series_container{
+    max-width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+footer {
+    background-color: #304242;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    width: 100%;
+    bottom: 0;
+}
+
+.logo {
+    width: 20px;
+    margin:0px;
+}
+
+.wholelogo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+nav ul li a:hover {
+    color: yellow;
+}
+
+.search {
+    display: flex;
+    margin-top: 10px;
+    justify-content: center;
+}
+
+.search input[type="text"] {
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px 0 0 5px;
+    border:red;
+    width: 800px;
+    
+}
+
+.search button{
+    color: #fff;
+    background-color: #304242;
+    width: 150px;
+    height: 35px;
+    border: none;
+    border-radius: 0 10px 10px 0;
+    cursor: pointer;
+}
+
+.search button:hover {
+    background-color: #444;
+}
+
+.heading{
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 1px 2px 30px black;
+}
+.filter{
+    justify-content: center;
+    display: flex;
+    
+}
+select{
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px 5px 5px 5px;
+    width: 150px;
+    margin-right: 20px;
+}
+
+.filter button{
+    color: #fff;
+    background-color: #304242;
+    width: 150px;
+    height: 35px;
+    border: none;
+    border-radius: 10px 10px 10px 10px;
+    cursor: pointer;
+}
+
+
+
+#loadingPage{
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    z-index: 100;
+    background : white url(loading2.gif) no-repeat center ;
+    transition: opacity 0.8s, visibility 0.8s;
+    background-size: 20%;
+     
+}
+#loadingPage-hidden{
+    opacity: 0;
+    visibility: hidden;
+}
+#loadingPage::after{
+    content: "";
+    width: 75px;
+    height: 75px;
+    border: 15px solid white;
+    border-top-color: dodgerblue;
+    border-radius: 50%;
+    animation: loading 0.8s ease infinite;
+}
+@keyframes loading {
+    from {
+        transform: rotate(0turn);
+    }
+    to {
+        transform: rotate(1turn);
+    }
+}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hoop: The Best In One Place</title>
+    <link rel="icon" href="img/logo.jpg">
+    <link rel="stylesheet" href="css/home.css">
+</head>
+<body>
+    <!-- Loading screen -->
+    <div id="loadingPage"></div>
+
+    <header>
+        <div class="wholelogo">
+            <img src="img/logo.jpg" id="logo" width="50px">
+            <span><h1 class="heading">HOOP</h1></span>
+        </div>
+
+        <nav>
+            <ul>
+                <li class="navi"><a href="home.html">Home</a></li>
+                <li class="active"><a href="movies.html">Movies</a></li>
+                <li class="navi"><a href="series.html">Series</a></li>
+                <li class="navi"><a href="logout.html">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1 class="heading">Home Of The Best Movies</h1>
+        <div class="search">
+            <input type="text" placeholder="Search..." id="searchbar">
+            <button type="button" id = "searchBTN">Search</button>
+        </div>
+        <br>
+        <div class="filter">
+            <select id="genre">
+                <option value="" disabled selected>Genre</option>
+                <option value="action">Action</option>
+                <option value="comedy">Comedy</option>
+                <option value="crime">Crime</option>
+                <option value="documentation">Documentation</option>
+                <option value="drama">Drama</option>
+                <option value="family">Family</option>
+                <option value="horror">Horror</option>
+                <option value="sci-fi">Sci-Fi</option>
+                <option value="sport">Sport</option>
+                <option value="romance">Romance</option>
+                <option value="thriller">Thriller</option>
+            </select>
+            <select id="pg-rating">
+                <option value="" disabled selected>PG-Rating</option>
+                <option value="pg">PG</option>
+                <option value="r">R</option>
+                <option value="tv-14">TV-14</option>
+                <option value="tv-ma">TV-MA</option>
+                <option value="16+">16+</option>
+                <option value="18+">18+</option>
+            </select>
+            <select id="rating">
+                <option value="" disabled selected>Rating</option>
+                <option value="1+">1+</option>
+                <option value="2+">2+</option>
+                <option value="3+">3+</option>
+                <option value="4+">4+</option>
+                <option value="5+">5+</option>
+                <option value="6+">6+</option>
+                <option value="7+">7+</option>
+                <option value="8+">8+</option>
+                <option value="9+">9+</option>
+                <option value="10">10+</option>
+            </select>
+            <button type="button" id = "filterBTN">Filter</button>
+        </div>
+
+        <!-- This is where the titles will be viewed -->
+        <section class="movies" id="movies">
+            <!-- Movies container -->
+            <div class="movies_container"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Hoop Entertainment. All rights reserved.</p>
+    </footer>
+
+    <!-- Link to the JavaScript file -->
+    <script src="js/movies.js"></script>
+</body>
+</html>

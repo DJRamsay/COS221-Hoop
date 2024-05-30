@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hoop: The Best In One Place</title>
+    <link rel="icon" href="img/logo.jpg">
+    <link rel="stylesheet" href="css/mTitles.css">
+</head>
+<body>
+    <header>
+        <div class="wholelogo">
+            <img src="img/logo.jpg" id="logo" width="50px">
+            <span><h1 class="heading">HOOP</h1></span>
+        </div>
+        <button class="btn">Logout</button>
+    </header>
+
+    <main>
+        <h1 class="heading">Manage Credits</h1>
+        <br><br>
+
+        <div class="show">
+            <h2>Update Credits</h2>
+            <form id="creditsForm">
+                <br>
+                <label for="creditName">Credit Name:</label><br><br>
+                <input type="text" name="creditName" class="box" id="creditName"><br><br>
+                <input type="submit" name="add" value="Add Credit" class="btn" id="addCreditBTN"><br><br>
+
+                <label for="titleId">Title ID:</label><br><br>
+                <input type="text" name="titleId" class="box" id="titleId"><br><br>
+
+                <label for="creditId">Credit ID:</label><br><br>
+                <input type="text" name="creditId" class="box" id="creditId"><br><br>
+
+                <label for="role">Credit Role:</label><br><br>
+                <input type="text" name="role" class="box" id="role"><br><br>
+
+                <label for="ttype">Credit Type:</label><br><br>
+                <select id="ttype" class="ddown">
+                    <option value="" disabled selected></option>
+                    <option value="actor">Actor</option>
+                    <option value="director">Director</option>
+                </select><br><br>
+
+                <input type="submit" name="addtc" value="Add Title Credit" class="btn" id="tcAdd">
+                <input type="submit" name="updatetc" value="Update Title Credit" class="btn" id="tcUpdate">
+            </form>
+        </div>
+        <script src="js/manageCredits.js"></script>
+    </main>
+</body>
+</html>

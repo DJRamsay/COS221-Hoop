@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hoop: The Best In One Place</title>
+    <link rel="icon" href="img/logo.jpg">
+    <link rel="stylesheet" href="css/mTitles.css">
+</head>
+<body>
+    <header>
+        <div class="wholelogo">
+            <img src="img/logo.jpg" id="logo" width="50px">
+            <span><h1 class="heading">HOOP</h1></span>
+        </div>
+        <button class="btn">Logout</button>
+    </header>
+
+    <main>
+        <h1 class="heading">Manage Titles</h1>
+        <br><br>
+
+        <div class="show">
+            <h2>Update Titles</h2>
+            <form id="titleForm">
+                
+                <br>
+                <label for="tname">Title Name:</label><br>
+                <br>
+                <input type="text" name="title_name" id="tname" class="box"><br>
+                <br>
+
+                <label for="ttype">Title Type:</label><br>
+                <br>
+                <select name="title_type" id="ttype" class="ddown">
+                    <option value="" disabled selected></option>
+                    <option value="Movie">Movie</option>
+                    <option value="Series">Series</option>
+                </select>
+                <br><br>
+                <label for="rdate">Release Date:</label><br>
+                <br>
+                <input type="date" name="release_date" id="rdate" class="box"><br>
+                <br>
+                <label for="image">Image:</label><br>
+                <br>
+                <input type="file" name="image" id="image" class="box"><br>
+                <br>
+                <label for="genre">Genre:</label><br>
+                <br>
+                <input type="text" name="genre" id="genre" class="box"><br>
+                <br>
+                <label for="description">Description:</label><br>
+                <br>
+                <textarea name="description" id="description" class="box"></textarea><br>
+                <br>
+                <label for="studio">Studio:</label><br>
+                <br>
+                <input type="text" name="studio" id="studio" class="box"><br>
+                <br>
+                <label for="pgRating">PG Rating:</label><br>
+                <br>
+                <input type="text" name="pg_rating" id="pgRating" class="box"><br>
+                <br>
+                <label for="rating">Title Rating:</label><br>
+                <br>
+                <input type="text" name="rating" id="rating" class="box"><br>
+                <br>
+                <label for="language">Main Language:</label><br>
+                <br>
+                <input type="text" name="language" id="language" class="box"><br>
+                <br>
+                <label for="fss">FSS Address:</label><br>
+                <br>
+                <input type="text" name="fss_address" id="fss" class="box"><br>
+                <br><br>
+                <input type="button" id="addTitleBtn" value="Add Title" class="btn">
+                <br><br>
+                <input type="button" id="editTitleBtn" value="Edit Title" class="btn">
+                <br><br>
+                <input type="button" id="deleteTitleBtn" value="Delete Title" class="btn">
+            </form>
+            <script src="js/manageTitles.js"></script>
+        </div>
+    </main>
+</body>
+</html>
