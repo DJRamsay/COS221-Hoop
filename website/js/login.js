@@ -1,6 +1,9 @@
 // javascript file for processing login of a user
 // this function should keep the user's api key in local storage
 // logging out , removes the users apikey from storage
+// javascript file for processing login of a user
+// this function should keep the user's api key in local storage
+// logging out , removes the users apikey from storage
 document.getElementById("log").addEventListener("submit", function(event) {
     event.preventDefault(); // Prevent form submission
     loginUser();
@@ -30,7 +33,9 @@ function loginUser() {
         if (xhr.status === 200) {
             var response = JSON.parse(xhr.responseText);
                 window.location.href = "myProfiles.html";
-            
+        }
+        else if(response.is_admin == true){
+            window.location.href = "myProfiles.html";
         } else {
             alert("Error: " + xhr.status);
         }

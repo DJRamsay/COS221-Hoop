@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function addCredit() {
-    var creditName = document.getElementById("creditName").value.toLowerCase();
+    var creditName = document.getElementById("creditName").value;
     var postData = { 
         "type" : "addCredit",
         "name": creditName 

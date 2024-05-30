@@ -1,20 +1,13 @@
 document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById("addTitleBtn").addEventListener("click", function(event) {
+    document.getElementById("newProfBTN").addEventListener("click", function(event) {
         event.preventDefault(); // Prevent default form submission
-        handleSubmit('AddTitle');
+        handleSubmit('Register Profile');
     });
-    document.getElementById("editTitleBtn").addEventListener("click", function(event) {
-        event.preventDefault(); // Prevent default form submission
-        handleSubmit('UpdateTitle');
-    });
-    document.getElementById("deleteTitleBtn").addEventListener("click", function(event) {
-        event.preventDefault();
-        handleSubmit('removeTitle');
-    });
+    
 });
 
 function handleSubmit(action) {
-    const form = document.getElementById("titleForm");
+    const form = document.getElementById("newProf");
     const formData = new FormData(form);
 
     let data = {};
