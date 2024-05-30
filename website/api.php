@@ -150,121 +150,87 @@
             }
         }
 
-        public function getAllTitles($data){
-            $apikey = isset($data['apikey']) ? $data['apikey'] : null;
-            $return = isset($data['return']) ? $data['return'] : null;
-            $limit = isset($data['limit']) ? $data['limit'] : null;
+        public function getAllTitles($data) {
+            $title_type = isset($data['title_type']) ? $data['title_type'] : "MOVIE";
+            $return = isset($data['return']) ? $data['return'] : '*';
+            $limit = isset($data['limit']) ? (int)$data['limit'] : 10;
             $sort = isset($data['sort']) ? $data['sort'] : null;
-            $order = isset($data['order']) ? $data['order'] : null;
+            $order = isset($data['order']) ? $data['order'] : 'ASC';
             $search = isset($data['search']) ? $data['search'] : null;
-
-
-            //Verify required fields
-            if ($apikey === null || $return === null){
-                $response = ['status' => 'fail', 'message' => 'Missing required parameters'];
-                echo json_encode($response);
-                return;
-            }
-
-            //check api key
-            if (!$this->validAPIKey($apikey)) {
-                $response = ['status' => 'fail', 'message' => 'Invalid API key'];
-                echo json_encode($response);
-                return;
-            }
-            
-
-            //Fetch from database
+        
+            // Fetch from database
             $conn = $this->getConnection();
             if (!$conn) {
                 $response = ['status' => 'fail', 'message' => 'Database connection error'];
                 echo json_encode($response);
                 return; 
             }
-            
-            //Create sql statement
+        
+            // Create SQL statement
             if ($return == "*") {
-                $sql = "SELECT * FROM listings"; //////////////
+                $sql = "SELECT * FROM title";
             } else {
-                $sql = "SELECT " . implode(", ", $return) . " FROM listings"; //////////////
+                $sql = "SELECT " . implode(", ", array_map(function($field) use ($conn) {
+                    return mysqli_real_escape_string($conn, $field);
+                }, $return)) . " FROM title";
             }
-            
-
-            if ($search !== null){
+        
+            // Handle search filters
+            if ($search !== null) {
                 $where = [];
-                $p_min = "";
-                $p_max = "";
-                foreach ($search as $column => $value){
+                foreach ($search as $column => $value) {
                     $column = mysqli_real_escape_string($conn, $column);
-            
-                    if ($column === 'price_min') {
-                        $p_min = mysqli_real_escape_string($conn, $value);
-                    } elseif ($column === 'price_max') {
-                        $p_max = mysqli_real_escape_string($conn, $value);
-                    }
-                    
-                    if ($column === 'id' || $column === 'title' || $column === 'location' || $column === 'type') {
-                        $where[] = "$column = '" . mysqli_real_escape_string($conn, $value) . "'";
-                    } elseif ($column === 'bedrooms' || $column === 'bathrooms' || $column === 'parking_spaces' || $column === 'amenities') {
-                        $where[] = "$column = " . mysqli_real_escape_string($conn, $value);
-                    }
+                    $value = mysqli_real_escape_string($conn, $value);
+                    $where[] = "$column LIKE '%$value%'";
                 }
-                $sql .= " WHERE " . implode(" AND ", $where);
-            
-                if ($p_min != "" || $p_max != "") {
-                    if ($p_min != "" && $p_max != "") {
-                        $sql .= " AND price BETWEEN $p_min AND $p_max";
-                    } else if ($p_min != "") {
-                        $sql .= " AND price >= $p_min ";
-                    } else if ($p_max != "") {
-                        $sql .= " AND price <= $p_max ";
-                    }
+                if (!empty($where)) {
+                    $sql .= " WHERE " . implode(" AND ", $where);
                 }
             }
-            
-            
+
+            //AND extra condition to make sure it's either a movie or a series
+            $sql .= "AND WHERE title_type LIKE $title_type";
+        
+            // Handle sorting
             if ($sort !== null) {
-                $sql .= " ORDER BY $sort";
-            }      
-
-            if ($order !== null) {
-                $sql .= " $order ";
+                $sort = mysqli_real_escape_string($conn, $sort);
+                $order = in_array(strtoupper($order), ['ASC', 'DESC']) ? strtoupper($order) : 'ASC';
+                $sql .= " ORDER BY $sort $order";
             }
-
-            if ($limit === null){
-                $limit = 10;
-            }
+        
+            // Add limit
             $sql .= " LIMIT $limit";
+        
+            // Prepare and execute the statement
             $stmt = $conn->prepare($sql);
-
             if (!$stmt) {
                 $response = ['status' => 'fail', 'message' => 'SQL query preparation error: ' . $conn->error];
                 echo json_encode($response);
                 return;
             }
-
+        
             if ($stmt->execute()) {
                 $result = $stmt->get_result();
                 $data = $result->fetch_all(MYSQLI_ASSOC);
                 $response = [
                     "status" => "success",
-                    "timestamp" => time(), 
+                    "timestamp" => time(),
                     "data" => $data
                 ];
-                
                 echo json_encode($response);
             } else {
                 $response = [
                     "status" => "fail",
-                    "timestamp" => time(), 
+                    "timestamp" => time(),
                     "data" => ["error" => $stmt->error]
                 ];
-                
                 echo json_encode($response);
             }
+        
             $stmt->close();
-            $conn->close(); ///////
+            $conn->close();
         }
+        
 
 
         //error response function
@@ -851,8 +817,9 @@
             $stmt->close();
         }
 
-        public function GetProfiles($accountId)
+        public function GetProfiles()
         {
+            $account = $this->current_account_id;
             $conn = $this->getConnection();
             $sql = "SELECT * FROM profile WHERE account_id = ?";
             $stmt = $conn->prepare($sql); 
@@ -884,6 +851,7 @@
         
 
     }
+
 
     $json = file_get_contents('php://input');
     if ($json === false || $json === null) {
@@ -936,6 +904,10 @@
     else if ($type == "UpdateTitleCredit")
     {
         echo $instance->UpdateTitleCredits($data);
+    }
+    else if($type == "GetProfiles")
+    {
+        $instance->GetProfiles();
     }
     
     //$instance->getAgents();
